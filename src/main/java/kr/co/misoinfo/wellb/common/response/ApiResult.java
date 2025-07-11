@@ -43,30 +43,4 @@ public class ApiResult<T> {
 	public static ApiResult<ErrorResponse> fail(ErrorResponse errorResponse) {
 		return new ApiResult<>(false, errorResponse, errorResponse.getMessage());
 	}
-
-	// Getters
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public T getData() {
-		return data;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	// Setters (필요한 경우)
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-
-	public void setData(T data) {
-		this.data = data;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
 }

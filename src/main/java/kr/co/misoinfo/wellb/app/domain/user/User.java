@@ -1,52 +1,25 @@
-
 package kr.co.misoinfo.wellb.app.domain.user;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String name;
-	
-	@Column(unique = true, nullable = false)
+
+	@Column(nullable = false, unique = true)
 	private String email;
-	
-	// 기본 생성자
-	public User() {}
-	
-	// 생성자
-	public User(String name, String email) {
-		this.name = name;
-		this.email = email;
-	}
-	
-	// Getters and Setters
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
 }

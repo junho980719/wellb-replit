@@ -1,8 +1,10 @@
 package kr.co.misoinfo.wellb.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
 import java.time.LocalDateTime;
 
+@Getter
 public class ErrorResponse {
 	private boolean success;
 	private String code;
@@ -28,30 +30,5 @@ public class ErrorResponse {
 
 	public static ErrorResponse of(ErrorCode errorCode, String path) {
 		return new ErrorResponse(false, errorCode.getCode(), errorCode.getMessage(), path, null);
-	}
-
-	// Getters
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public LocalDateTime getTimestamp() {
-		return timestamp;
 	}
 }

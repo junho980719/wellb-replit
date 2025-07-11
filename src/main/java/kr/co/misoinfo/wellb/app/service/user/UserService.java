@@ -1,9 +1,9 @@
-
 package kr.co.misoinfo.wellb.app.service.user;
 
 import kr.co.misoinfo.wellb.app.domain.user.User;
 import kr.co.misoinfo.wellb.app.repository.user.UserRepository;
-import kr.co.misoinfo.wellb.common.exception.ResourceNotFoundException;
+import kr.co.misoinfo.wellb.common.exception.BusinessException;
+import kr.co.misoinfo.wellb.common.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +22,17 @@ public class UserService {
 
 	public User getUserBySeq(Integer userSeq) {
 		return userRepository.findById(userSeq)
-			.orElseThrow(() -> new ResourceNotFoundException("User not found with userSeq: " + userSeq));
+			.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "User not found with userSeq: " + userSeq));
 	}
 
 	public User getUserByUserId(String userId) {
 		return userRepository.findByUserId(userId)
-			.orElseThrow(() -> new ResourceNotFoundException("User not found with userId: " + userId));
+			.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "User not found with userId: " + userId));
 	}
 
 	public User getUserByEmail(String email) {
 		return userRepository.findByEmail(email)
-			.orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+			.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "User not found with email: " + email));
 	}
 
 	public User createUser(User user) {

@@ -1,0 +1,20 @@
+run = "./gradlew run"
+
+[nix]
+channel = "stable-21_11"
+
+[workflows]
+runButton = "Spring Boot Run"
+
+[[workflows.workflow]]
+name = "Spring Boot Run"
+author = 44741966
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./gradlew bootRun --stacktrace --info"
+
+[[ports]]
+localPort = 5000
+externalPort = 80

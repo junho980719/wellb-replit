@@ -1,13 +1,13 @@
+
 package kr.co.misoinfo.wellb.app.service.user;
 
 import kr.co.misoinfo.wellb.app.domain.user.User;
 import kr.co.misoinfo.wellb.app.repository.user.UserRepository;
-import kr.co.misoinfo.wellb.common.exception.BusinessException;
-import kr.co.misoinfo.wellb.common.exception.ErrorCode;
+import kr.co.misoinfo.wellb.common.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,77 +20,91 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public User getUserById(Long id) {
-		if (id == null || id <= 0) {
-			throw new BusinessException(ErrorCode.INVALID_USER_ID);
-		}
-		return userRepository.findById(id)
-			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, String.valueOf(id)));
+	public User getUserBySeq(Integer userSeq) {
+		return userRepository.findById(userSeq)
+			.orElseThrow(() -> new ResourceNotFoundException("User not found with userSeq: " + userSeq));
+	}
+
+	public User getUserByUserId(String userId) {
+		return userRepository.findByUserId(userId)
+			.orElseThrow(() -> new ResourceNotFoundException("User not found with userId: " + userId));
 	}
 
 	public User getUserByEmail(String email) {
-		if (!StringUtils.hasText(email)) {
-			throw new BusinessException(ErrorCode.EMPTY_EMAIL);
-		}
 		return userRepository.findByEmail(email)
-			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, email));
+			.orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
 	}
 
 	public User createUser(User user) {
-		// 입력값 검증
-		if (user == null) {
-			throw new BusinessException(ErrorCode.EMPTY_USER_INFO);
+		// 중복 체크
+		if (user.getUserId() != null && userRepository.existsByUserId(user.getUserId())) {
+			throw new IllegalArgumentException("User ID already exists: " + user.getUserId());
 		}
-		if (!StringUtils.hasText(user.getName())) {
-			throw new BusinessException(ErrorCode.EMPTY_USER_NAME);
-		}
-		if (!StringUtils.hasText(user.getEmail())) {
-			throw new BusinessException(ErrorCode.EMPTY_USER_EMAIL);
+		if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
+			throw new IllegalArgumentException("Email already exists: " + user.getEmail());
 		}
 
-		// 이메일 중복 체크
-		if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-			throw new BusinessException(ErrorCode.DUPLICATE_EMAIL, user.getEmail());
-		}
+		// 기본값 설정
+		user.setInputDt(LocalDateTime.now());
+		user.setUserDelGu("N"); // 기본적으로 삭제되지 않음
 
 		return userRepository.save(user);
 	}
 
-	public User updateUser(Long id, User userDetails) {
-		if (id == null || id <= 0) {
-			throw new BusinessException(ErrorCode.INVALID_USER_ID);
+	public User updateUser(Integer userSeq, User userDetails) {
+		User user = getUserBySeq(userSeq);
+
+		// 필드 업데이트
+		if (userDetails.getUserId() != null) {
+			user.setUserId(userDetails.getUserId());
 		}
-		if (userDetails == null) {
-			throw new BusinessException(ErrorCode.EMPTY_UPDATE_INFO);
+		if (userDetails.getUserNm() != null) {
+			user.setUserNm(userDetails.getUserNm());
+		}
+		if (userDetails.getEmail() != null) {
+			user.setEmail(userDetails.getEmail());
+		}
+		if (userDetails.getHpNo() != null) {
+			user.setHpNo(userDetails.getHpNo());
+		}
+		if (userDetails.getPost() != null) {
+			user.setPost(userDetails.getPost());
+		}
+		if (userDetails.getAddr1() != null) {
+			user.setAddr1(userDetails.getAddr1());
+		}
+		if (userDetails.getAddr2() != null) {
+			user.setAddr2(userDetails.getAddr2());
+		}
+		if (userDetails.getUserDesc() != null) {
+			user.setUserDesc(userDetails.getUserDesc());
+		}
+		if (userDetails.getUserDesc2() != null) {
+			user.setUserDesc2(userDetails.getUserDesc2());
+		}
+		if (userDetails.getBirthYmd() != null) {
+			user.setBirthYmd(userDetails.getBirthYmd());
+		}
+		if (userDetails.getMktRecYn() != null) {
+			user.setMktRecYn(userDetails.getMktRecYn());
+		}
+		if (userDetails.getContractYn() != null) {
+			user.setContractYn(userDetails.getContractYn());
+		}
+		if (userDetails.getProfileFile() != null) {
+			user.setProfileFile(userDetails.getProfileFile());
 		}
 
-		return userRepository.findById(id)
-			.map(user -> {
-				if (StringUtils.hasText(userDetails.getName())) {
-					user.setName(userDetails.getName());
-				}
-				if (StringUtils.hasText(userDetails.getEmail()) && 
-					!userDetails.getEmail().equals(user.getEmail())) {
-					// 이메일 변경 시 중복 체크
-					if (userRepository.findByEmail(userDetails.getEmail()).isPresent()) {
-						throw new BusinessException(ErrorCode.DUPLICATE_EMAIL, userDetails.getEmail());
-					}
-					user.setEmail(userDetails.getEmail());
-				}
-				return userRepository.save(user);
-			})
-			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, String.valueOf(id)));
+		user.setUpdateDt(LocalDateTime.now());
+
+		return userRepository.save(user);
 	}
 
-	public void deleteUser(Long id) {
-		if (id == null || id <= 0) {
-			throw new BusinessException(ErrorCode.INVALID_USER_ID);
-		}
-
-		if (!userRepository.existsById(id)) {
-			throw new BusinessException(ErrorCode.USER_NOT_FOUND, String.valueOf(id));
-		}
-		
-		userRepository.deleteById(id);
+	public void deleteUser(Integer userSeq) {
+		User user = getUserBySeq(userSeq);
+		// 논리적 삭제 처리
+		user.setUserDelGu("Y");
+		user.setUserDelDt(LocalDateTime.now());
+		userRepository.save(user);
 	}
 }

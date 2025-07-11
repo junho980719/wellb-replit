@@ -40,7 +40,7 @@ public class ApiResult<T> {
 	}
 
 	public static ApiResult<ErrorResponse> fail(ErrorResponse errorResponse) {
-		return new ApiResult<>(false, null, errorResponse.getMessage(), errorResponse);
+		return new ApiResult<>(false, errorResponse, errorResponse.getMessage());
 	}
 
 	// Getters

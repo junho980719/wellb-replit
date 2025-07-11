@@ -1,19 +1,16 @@
 package kr.co.misoinfo.wellb.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import kr.co.misoinfo.wellb.common.exception.ErrorResponse;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResult<T> {
 	private boolean success;
 	private T data;
 	private String message;
-
-	private ApiResult(boolean success, T data, String message) {
-		this.success = success;
-		this.data = data;
-		this.message = message;
-	}
 
 	// 성공 응답 - 데이터 없음
 	public static <T> ApiResult<T> ok() {
@@ -30,6 +27,11 @@ public class ApiResult<T> {
 		return new ApiResult<>(true, data, message);
 	}
 
+	// 실패 응답 - 데이터
+	public static <T> ApiResult<T> fail(T data) {
+		return new ApiResult<>(false, data, null);
+	}
+
 	// 실패 응답 - 메시지만
 	public static <T> ApiResult<T> fail(String message) {
 		return new ApiResult<>(false, null, message);
@@ -38,9 +40,5 @@ public class ApiResult<T> {
 	// 실패 응답 - 데이터와 메시지
 	public static <T> ApiResult<T> fail(T data, String message) {
 		return new ApiResult<>(false, data, message);
-	}
-
-	public static ApiResult<ErrorResponse> fail(ErrorResponse errorResponse) {
-		return new ApiResult<>(false, errorResponse, errorResponse.getMessage());
 	}
 }

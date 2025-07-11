@@ -1,4 +1,3 @@
-
 package kr.co.misoinfo.wellb.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -10,23 +10,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<ApiResult<Object>> handleBusinessException(BusinessException ex) {
+	public ResponseEntity<ApiResult<ErrorResponse>> handleBusinessException(BusinessException ex) {
+		ErrorResponse errorResponse = ErrorResponse.of(ex.getErrorCode(), "/api", ex.getDetail());
 		return ResponseEntity
 			.status(ex.getErrorCode().getHttpStatus())
-			.body(ApiResult.fail(ex.getErrorCode().getCode(), ex.getMessage()));
+			.body(ApiResult.fail(ex.getErrorCode().getCode(), ex.getMessage(), errorResponse));
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<ApiResult<Object>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+	public ResponseEntity<ApiResult<ErrorResponse>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+		ErrorCode notFoundCode = ErrorCode.RESOURCE_NOT_FOUND;
+		ErrorResponse errorResponse = ErrorResponse.of(notFoundCode, "/api");
 		return ResponseEntity
 			.status(HttpStatus.NOT_FOUND)
-			.body(ApiResult.fail("RESOURCE_NOT_FOUND", ex.getMessage()));
+			.body(ApiResult.fail("RESOURCE_NOT_FOUND", ex.getMessage(), errorResponse));
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResult<Object>> handleGenericException(Exception ex) {
+	public ResponseEntity<ApiResult<ErrorResponse>> handleGenericException(Exception ex) {
+		ErrorCode internalErrorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+		ErrorResponse errorResponse = ErrorResponse.of(internalErrorCode, "/api", ex.getMessage());
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(ApiResult.fail("INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다."));
+			.body(ApiResult.fail("INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다.", errorResponse));
 	}
 }

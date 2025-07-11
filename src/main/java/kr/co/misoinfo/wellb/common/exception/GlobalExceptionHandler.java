@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = ErrorResponse.of(ex.getErrorCode(), "/api", ex.getDetail());
 		return ResponseEntity
 			.status(ex.getErrorCode().getHttpStatus())
-			.body(ApiResult.fail(ex.getErrorCode().getCode(), ex.getMessage(), errorResponse));
+			.body(ApiResult.fail(errorResponse));
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = ErrorResponse.of(notFoundCode, "/api");
 		return ResponseEntity
 			.status(HttpStatus.NOT_FOUND)
-			.body(ApiResult.fail("RESOURCE_NOT_FOUND", ex.getMessage(), errorResponse));
+			.body(ApiResult.fail(errorResponse));
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -32,6 +32,6 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = ErrorResponse.of(internalErrorCode, "/api", ex.getMessage());
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(ApiResult.fail("INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다.", errorResponse));
+			.body(ApiResult.fail(errorResponse));
 	}
 }

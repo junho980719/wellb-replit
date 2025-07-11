@@ -39,6 +39,10 @@ public class ApiResult<T> {
 		return new ApiResult<>(false, data, message);
 	}
 
+	public static ApiResult<ErrorResponse> fail(ErrorResponse errorResponse) {
+		return new ApiResult<>(false, null, errorResponse.getMessage(), errorResponse);
+	}
+
 	// Getters
 	public boolean isSuccess() {
 		return success;

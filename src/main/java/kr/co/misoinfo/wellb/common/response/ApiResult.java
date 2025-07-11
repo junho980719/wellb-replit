@@ -1,6 +1,7 @@
 package kr.co.misoinfo.wellb.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import kr.co.misoinfo.wellb.common.exception.ErrorResponse;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResult<T> {

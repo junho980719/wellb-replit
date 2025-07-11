@@ -1,19 +1,21 @@
 package kr.co.misoinfo.wellb.common.exception;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.dao.DataIntegrityViolationException;
+import kr.co.misoinfo.wellb.common.response.ApiResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.stream.Collectors;
 
@@ -22,16 +24,11 @@ public class GlobalExceptionHandler {
 
 	// 비즈니스 예외 처리
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e, HttpServletRequest request) {
-		ErrorResponse errorResponse = new ErrorResponse(
-			e.getHttpStatus(),
-			e.getErrorCode().getHttpStatus().getReasonPhrase(),
-			e.getCode(),
-			e.getMessage(),
-			request.getRequestURI()
-		);
-
-		return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(errorResponse);
+	public ResponseEntity<ApiResult<ErrorResponse>> handleBusinessException(BusinessException ex, HttpServletRequest request) {
+		ErrorCode errorCode = ex.getErrorCode();
+		ErrorResponse errorResponse = ErrorResponse.of(errorCode, request.getRequestURI(), ex.getDetail());
+		ApiResult<ErrorResponse> result = ApiResult.fail(errorResponse, errorCode.getMessage());
+		return ResponseEntity.status(errorCode.getHttpStatus()).body(result);
 	}
 
 	// 커스텀 예외 처리
@@ -104,16 +101,10 @@ public class GlobalExceptionHandler {
 
 	// 핸들러를 찾을 수 없는 경우 (404)
 	@ExceptionHandler(NoHandlerFoundException.class)
-	public ResponseEntity<ErrorResponse> handleNoHandlerFoundException(
-		NoHandlerFoundException ex, HttpServletRequest request) {
-		ErrorResponse errorResponse = new ErrorResponse(
-			HttpStatus.NOT_FOUND.value(),
-			"Not Found",
-			"ENDPOINT_NOT_FOUND",
-			"요청한 엔드포인트를 찾을 수 없습니다",
-			request.getRequestURI()
-		);
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	public ResponseEntity<ApiResult<ErrorResponse>> handleNotFoundException(NoHandlerFoundException ex, HttpServletRequest request) {
+		ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.RESOURCE_NOT_FOUND, request.getRequestURI(), "요청한 리소스를 찾을 수 없습니다");
+		ApiResult<ErrorResponse> result = ApiResult.fail(errorResponse, ErrorCode.RESOURCE_NOT_FOUND.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 	}
 
 	// 필수 파라미터 누락 처리
@@ -212,15 +203,9 @@ public class GlobalExceptionHandler {
 
 	// 모든 예외의 최종 처리
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) {
-		ErrorResponse errorResponse = new ErrorResponse(
-			HttpStatus.INTERNAL_SERVER_ERROR.value(),
-			"Internal Server Error",
-			"INTERNAL_ERROR",
-			"예상치 못한 오류가 발생했습니다",
-			request.getRequestURI()
-		);
-
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	public ResponseEntity<ApiResult<ErrorResponse>> handleGenericException(Exception ex, HttpServletRequest request) {
+		ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR, request.getRequestURI(), ex.getMessage());
+		ApiResult<ErrorResponse> result = ApiResult.fail(errorResponse, ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
 	}
 }

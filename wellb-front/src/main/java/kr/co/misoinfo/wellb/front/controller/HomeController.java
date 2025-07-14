@@ -11,6 +11,8 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("message", "Welcome to Wellb Front!");
-        return "home/index";
+        model.addAttribute("title", "Home");
+        model.addAttribute("contentPage", "../home/index.jsp");
+        return "layout/layout";
     }
 }

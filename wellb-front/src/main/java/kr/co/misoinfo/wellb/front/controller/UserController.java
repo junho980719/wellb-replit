@@ -13,12 +13,15 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("title", "Login Page");
-        return "user/login";
+        model.addAttribute("contentPage", "../user/login.jsp");
+        return "layout/layout";
     }
     
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("message", "User Management Page");
-        return "user/index";
+        model.addAttribute("title", "User Management");
+        model.addAttribute("contentPage", "../user/index.jsp");
+        return "layout/layout";
     }
 }

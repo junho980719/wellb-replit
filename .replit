@@ -13,7 +13,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "./gradlew bootRun --stacktrace --info"
+args = "./gradlew :wellb-front:bootRun --stacktrace --info"
 
 [[ports]]
 localPort = 5000

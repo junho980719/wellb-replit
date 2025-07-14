@@ -30,7 +30,7 @@
             </label>
         </div>
         <div class="d-grid mb-3">
-            <button type="submit" class="btn btn-primary-custom btn-lg">로그인</button>
+            <button type="button" class="btn btn-primary-custom btn-lg" hx-get="/user">로그인</button>
         </div>
     </form>
 
@@ -40,23 +40,19 @@
         </p>
         <p class="text-muted mb-3">아직 계정이 없으신가요?</p>
         <div class="d-grid mb-3">
-            <button type="button" class="btn btn-outline-primary-custom" 
-                    hx-get="/user/signup" hx-target="body">
-                회원가입
-            </button>
+            <button type="button" class="btn btn-outline-primary-custom" hx-get="/user/auth/signup">회원가입</button>
         </div>
     </div>
 
-    <div class="text-center">
-        <button type="button" class="btn btn-link text-muted" 
-                hx-get="/" hx-target="body">
+    <div class="text-center" hx-push-url="true">
+        <button type="button" class="btn btn-link text-muted" onclick="window.location.href='/';">
             <i class="fas fa-arrow-left me-2"></i>돌아가기
         </button>
     </div>
 </div>
 
 <!-- 페이지별 스크립트 -->
-<th:block layout:fragment="scripts">
+<!--<th:block layout:fragment="scripts">
     <script>
         // 로그인 관련 스크립트
         document.body.addEventListener('htmx:beforeRequest', function(event) {
@@ -69,5 +65,5 @@
             document.querySelector('.loading-spinner').style.display = 'none';
         });
     </script>
-</th:block>
+</th:block>-->
 </html>

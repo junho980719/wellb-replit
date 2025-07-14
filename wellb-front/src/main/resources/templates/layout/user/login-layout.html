@@ -20,7 +20,7 @@
     <script th:src="@{/js/common-api.js}"></script>
     <script th:src="@{/js/common-ui.js}"></script>
 </head>
-<body class="login-body">
+<body class="login-body" hx-history="true" hx-target="body" hx-swap="outerHTML" hx-push-url="true">
     <div class="w-100 h-100">
         <!-- 헤더 영역 -->
         <div layout:fragment="header" class="header-section">

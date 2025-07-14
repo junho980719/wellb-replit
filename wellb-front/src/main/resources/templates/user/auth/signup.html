@@ -10,7 +10,7 @@
         <div class="row align-items-center p-3">
             <div class="col-2">
                 <button type="button" class="btn btn-link text-white p-0" 
-                        hx-get="/user/login" hx-target="body">
+                        hx-get="/user/auth/login" hx-target="body">
                     <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
                 </button>
             </div>
@@ -155,8 +155,8 @@
 
         <div class="d-grid mt-4">
             <button type="button" class="btn btn-primary-custom btn-lg" 
-                    hx-get="/user/signup-step2" hx-target="body">
-                다음 단계
+                    hx-get="/user" hx-target="body">
+                회원가입
             </button>
         </div>
     </form>
@@ -164,7 +164,7 @@
     <div class="text-center">
         <p class="text-muted mb-3">이미 계정이 있으신가요?</p>
         <button type="button" class="btn btn-link text-decoration-none" 
-                hx-get="/user/login" hx-target="body">
+                hx-get="/user/auth/login" hx-target="body">
             로그인하기
         </button>
     </div>

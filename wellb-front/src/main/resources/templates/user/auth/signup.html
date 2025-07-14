@@ -88,3 +88,214 @@
     </div>
 </div>
 </html>
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user-layout}">
+
+<div layout:fragment="content">
+    <div class="login-container-mobile">
+        <div class="login-header-mobile">
+            <button class="back-btn" 
+                    hx-get="/user/auth/login" 
+                    hx-target="#main-content" 
+                    hx-push-url="true"
+                    hx-swap="innerHTML show:window:top">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="login-title-mobile">회원가입</h1>
+        </div>
+        
+        <div class="login-content-mobile">
+            <div class="login-logo-mobile">
+                <div class="step-indicator-mobile">
+                    <span class="step-number-mobile active">1</span>
+                </div>
+                <h2 class="welcome-text-mobile">기본정보 입력</h2>
+                <p class="subtitle-mobile">회원가입을 위한 기본 정보를 입력해주세요</p>
+            </div>
+            
+            <form>
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">이름 <span class="required">*</span></label>
+                    <input type="text" class="form-input-mobile" placeholder="이름을 입력하세요" id="name" required>
+                </div>
+
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">생년월일 <span class="required">*</span></label>
+                    <input type="date" class="form-input-mobile" id="birthdate" required>
+                </div>
+
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">성별 <span class="required">*</span></label>
+                    <div class="gender-select-mobile">
+                        <button type="button" class="gender-btn-mobile" onclick="selectGender('male', this)">
+                            <i class="fas fa-mars"></i>
+                            <span>남성</span>
+                        </button>
+                        <button type="button" class="gender-btn-mobile" onclick="selectGender('female', this)">
+                            <i class="fas fa-venus"></i>
+                            <span>여성</span>
+                        </button>
+                    </div>
+                    <input type="hidden" id="gender" name="gender" required>
+                </div>
+
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">연락처 <span class="required">*</span></label>
+                    <div class="phone-input-group-mobile">
+                        <input type="tel" class="form-input-mobile" placeholder="010-0000-0000" id="phone" required>
+                        <button type="button" class="verify-btn-mobile" onclick="sendVerificationCode()">
+                            인증번호
+                        </button>
+                    </div>
+                    
+                    <div class="verification-section-mobile" id="verificationSection" style="display: none;">
+                        <div class="phone-input-group-mobile">
+                            <input type="text" class="form-input-mobile" placeholder="인증번호 6자리" id="verificationCode" maxlength="6">
+                            <button type="button" class="verify-btn-mobile" onclick="verifyCode()">
+                                확인
+                            </button>
+                        </div>
+                        <div class="timer-mobile">
+                            <span id="timer">03:00</span>
+                            <button type="button" class="resend-btn-mobile" onclick="resendCode()">재전송</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">이메일 주소 <span class="required">*</span></label>
+                    <input type="email" class="form-input-mobile" placeholder="example@email.com" id="email" required>
+                </div>
+
+                <div class="terms-section-mobile">
+                    <div class="terms-header-mobile">
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" id="agreeAll" onchange="toggleAllTerms()">
+                            <span class="checkmark-mobile"></span>
+                            전체 동의
+                        </label>
+                    </div>
+                    
+                    <div class="terms-list-mobile">
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" class="required-term" id="terms" required>
+                            <span class="checkmark-mobile"></span>
+                            <span class="required">[필수]</span> 이용약관에 동의합니다
+                        </label>
+                        
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" class="required-term" id="privacy" required>
+                            <span class="checkmark-mobile"></span>
+                            <span class="required">[필수]</span> 개인정보 수집 및 이용에 동의합니다
+                        </label>
+                        
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" class="optional-term" id="marketing">
+                            <span class="checkmark-mobile"></span>
+                            <span class="optional">[선택]</span> 마케팅 수신 동의
+                        </label>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary-mobile"
+                        hx-get="/user/auth/signup-step2" 
+                        hx-target="#main-content" 
+                        hx-push-url="true"
+                        hx-swap="innerHTML show:window:top">
+                    다음 단계
+                </button>
+                
+                <div class="signup-footer-mobile">
+                    <p>이미 계정이 있으신가요?</p>
+                    <button type="button" class="link-btn-mobile"
+                            hx-get="/user/auth/login" 
+                            hx-target="#main-content" 
+                            hx-push-url="true"
+                            hx-swap="innerHTML show:window:top">
+                        로그인하기
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function selectGender(gender, element) {
+            document.querySelectorAll('.gender-btn-mobile').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('gender').value = gender;
+        }
+        
+        function sendVerificationCode() {
+            const phone = document.getElementById('phone').value;
+            if (!phone) {
+                CommonUI.showAlert('연락처를 입력해주세요.');
+                return;
+            }
+            document.getElementById('verificationSection').style.display = 'block';
+            startTimer();
+            CommonUI.showAlert('인증번호가 전송되었습니다.');
+        }
+        
+        function verifyCode() {
+            const code = document.getElementById('verificationCode').value;
+            if (!code || code.length !== 6) {
+                CommonUI.showAlert('6자리 인증번호를 입력해주세요.');
+                return;
+            }
+            CommonUI.showAlert('인증이 완료되었습니다.');
+        }
+        
+        function resendCode() {
+            document.getElementById('verificationCode').value = '';
+            startTimer();
+            CommonUI.showAlert('인증번호가 재전송되었습니다.');
+        }
+        
+        function startTimer() {
+            let time = 180;
+            const timer = document.getElementById('timer');
+            
+            const interval = setInterval(() => {
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (time === 0) {
+                    clearInterval(interval);
+                    timer.textContent = '시간 만료';
+                }
+                time--;
+            }, 1000);
+        }
+        
+        function toggleAllTerms() {
+            const agreeAll = document.getElementById('agreeAll');
+            const requiredTerms = document.querySelectorAll('.required-term');
+            const optionalTerms = document.querySelectorAll('.optional-term');
+            
+            if (agreeAll.checked) {
+                requiredTerms.forEach(term => term.checked = true);
+                optionalTerms.forEach(term => term.checked = true);
+            } else {
+                requiredTerms.forEach(term => term.checked = false);
+                optionalTerms.forEach(term => term.checked = false);
+            }
+        }
+        
+        // 전화번호 자동 포맷팅
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            if (value.length >= 3 && value.length <= 7) {
+                value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+            } else if (value.length > 7) {
+                value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+            }
+            e.target.value = value;
+        });
+    </script>
+</div>
+</html>

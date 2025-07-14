@@ -7,7 +7,7 @@
     <div class="login-container-mobile">
         <div class="login-header-mobile">
             <button class="back-btn" 
-                    hx-get="/user/signup" 
+                    hx-get="/user/auth/signup" 
                     hx-target="#main-content" 
                     hx-push-url="true"
                     hx-swap="innerHTML show:window:top">
@@ -18,75 +18,160 @@
         
         <div class="login-content-mobile">
             <div class="login-logo-mobile">
-                <i class="fas fa-user-edit logo-icon-mobile"></i>
+                <div class="step-indicator-mobile">
+                    <span class="step-number-mobile active">2</span>
+                </div>
                 <h2 class="welcome-text-mobile">거의 다 됐어요!</h2>
                 <p class="subtitle-mobile">추가 정보를 입력해주세요</p>
             </div>
             
             <form>
                 <div class="form-group-mobile">
-                    <label class="form-label-mobile">생년월일</label>
-                    <input type="date" class="form-control-mobile">
-                </div>
-                
-                <div class="form-group-mobile">
-                    <label class="form-label-mobile">성별</label>
-                    <select class="form-control-mobile">
-                        <option value="">성별을 선택하세요</option>
-                        <option value="male">남성</option>
-                        <option value="female">여성</option>
-                        <option value="other">기타</option>
-                    </select>
-                </div>
-                
-                <div class="form-group-mobile">
-                    <label class="form-label-mobile">관심 있는 요가 유형</label>
-                    <select class="form-control-mobile">
-                        <option value="">선택해주세요</option>
-                        <option value="hatha">하타 요가</option>
-                        <option value="vinyasa">빈야사 요가</option>
-                        <option value="yin">음 요가</option>
-                        <option value="power">파워 요가</option>
-                        <option value="prenatal">산전 요가</option>
-                    </select>
-                </div>
-                
-                <div class="form-group-mobile">
                     <label class="form-label-mobile">요가 경험</label>
-                    <select class="form-control-mobile">
-                        <option value="">선택해주세요</option>
-                        <option value="beginner">초보자 (6개월 미만)</option>
-                        <option value="intermediate">중급자 (6개월~2년)</option>
-                        <option value="advanced">상급자 (2년 이상)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group-mobile">
-                    <label class="form-label-mobile">주소 (선택)</label>
-                    <input type="text" class="form-control-mobile" placeholder="주소를 입력하세요">
+                    <div class="experience-select-mobile">
+                        <button type="button" class="experience-btn-mobile" onclick="selectExperience('beginner', this)">
+                            <i class="fas fa-seedling"></i>
+                            <span>초보자</span>
+                            <small>처음 시작해요</small>
+                        </button>
+                        <button type="button" class="experience-btn-mobile" onclick="selectExperience('intermediate', this)">
+                            <i class="fas fa-leaf"></i>
+                            <span>중급자</span>
+                            <small>어느정도 경험이 있어요</small>
+                        </button>
+                        <button type="button" class="experience-btn-mobile" onclick="selectExperience('advanced', this)">
+                            <i class="fas fa-tree"></i>
+                            <span>고급자</span>
+                            <small>많은 경험이 있어요</small>
+                        </button>
+                    </div>
+                    <input type="hidden" id="experience" name="experience">
                 </div>
 
-                <button type="button"
-                        hx-get="/user"
-                        hx-target="#main-content"
-                        hx-push-url="true"
-                        class="btn-login-mobile">
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">관심 있는 요가 유형</label>
+                    <div class="yoga-types-mobile">
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="yogaTypes" value="hatha">
+                            <span class="checkmark-mobile"></span>
+                            하타 요가
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="yogaTypes" value="vinyasa">
+                            <span class="checkmark-mobile"></span>
+                            비니야사 요가
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="yogaTypes" value="ashtanga">
+                            <span class="checkmark-mobile"></span>
+                            아쉬탕가 요가
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="yogaTypes" value="hot">
+                            <span class="checkmark-mobile"></span>
+                            핫 요가
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="yogaTypes" value="meditation">
+                            <span class="checkmark-mobile"></span>
+                            명상 요가
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">건강 상태</label>
+                    <div class="health-status-mobile">
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="health" value="normal">
+                            <span class="checkmark-mobile"></span>
+                            <strong>양호</strong>
+                            <small>특별한 문제없음</small>
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="health" value="disease">
+                            <span class="checkmark-mobile"></span>
+                            <strong>질환 보유</strong>
+                            <small>당뇨, 고혈압, 심장질환 등</small>
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="health" value="pain">
+                            <span class="checkmark-mobile"></span>
+                            <strong>통증 부위</strong>
+                            <small>목, 어깨, 허리, 무릎 등</small>
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="health" value="surgery">
+                            <span class="checkmark-mobile"></span>
+                            <strong>수술 이력</strong>
+                            <small>최근 6개월 이내</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">요가 목표</label>
+                    <div class="goals-mobile">
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="goals" value="flexibility">
+                            <span class="checkmark-mobile"></span>
+                            유연성 향상
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="goals" value="strength">
+                            <span class="checkmark-mobile"></span>
+                            근력 강화
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="goals" value="balance">
+                            <span class="checkmark-mobile"></span>
+                            균형감각 향상
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="goals" value="stress">
+                            <span class="checkmark-mobile"></span>
+                            스트레스 해소
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="goals" value="weight">
+                            <span class="checkmark-mobile"></span>
+                            체중 관리
+                        </label>
+                        <label class="checkbox-mobile">
+                            <input type="checkbox" name="goals" value="meditation">
+                            <span class="checkmark-mobile"></span>
+                            명상과 마음챙김
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary-mobile">
+                    <i class="fas fa-check"></i>
                     회원가입 완료
                 </button>
                 
-                <div class="signup-section-mobile">
-                    <p class="signup-text-mobile">이전 단계로 돌아가시겠어요?</p>
-                    <a th:href="@{/user/signup}" 
-                       hx-get="/user/signup" 
-                       hx-target="#main-content" 
-                       hx-push-url="true"
-                       hx-swap="innerHTML show:window:top"
-                       class="btn-signup-mobile">
-                        이전 단계
-                    </a>
+                <div class="signup-footer-mobile">
+                    <p>이미 계정이 있으신가요?</p>
+                    <button type="button" class="link-btn-mobile"
+                            hx-get="/user/auth/login" 
+                            hx-target="#main-content" 
+                            hx-push-url="true"
+                            hx-swap="innerHTML show:window:top">
+                        로그인하기
+                    </button>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        function selectExperience(level, element) {
+            document.querySelectorAll('.experience-btn-mobile').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('experience').value = level;
+        }
+    </script>
 </div>
 </html>

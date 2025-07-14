@@ -13,13 +13,13 @@
                hx-target="#main-content" 
                hx-push-url="true"
                hx-swap="innerHTML show:window:top"
-               class="btn btn-primary">사용자 관리</a>
-            <a th:href="@{/user/login}" 
-               hx-get="/user/login" 
+               class="btn btn-primary">사용자 페이지</a>
+            <a th:href="@{/admin/}" 
+               hx-get="/admin/" 
                hx-target="#main-content" 
                hx-push-url="true"
                hx-swap="innerHTML show:window:top"
-               class="btn btn-success">로그인</a>
+               class="btn" style="background-color: #e74c3c; color: white;">관리자 페이지</a>tn-success">로그인</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+    <div style="background-color: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 20px rgba(0,0,0,0.1);">
+        <h2 style="color: #2c3e50; margin-bottom: 1.5rem; border-bottom: 2px solid #e74c3c; padding-bottom: 0.5rem;">
+            관리자 페이지
+        </h2>
+        
+        <p style="font-size: 1.1rem; color: #555; margin-bottom: 2rem;" th:text="${message}">
+            Admin Management Page
+        </p>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a th:href="@{/admin/login}" class="btn" style="background-color: #e74c3c; color: white;">
+                관리자 로그인
+            </a>
+            <a th:href="@{/}" class="btn btn-secondary">
+                홈으로
+            </a>
+        </div>
+    </div>
+</div>
+</html>

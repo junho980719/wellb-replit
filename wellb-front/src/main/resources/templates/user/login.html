@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/login-layout}">
+
+<!-- 콘텐츠 영역 -->
+<div layout:fragment="content">
+    <div class="text-center mb-4">
+        <div class="app-logo">
+            <div class="check-icon mx-auto mb-3">
+                <span>V</span>
+            </div>
+            <h3 class="text-dark mb-2">사용자 로그인</h3>
+            <p class="text-muted">계정 정보를 입력해주세요</p>
+        </div>
+    </div>
+
+    <form class="mb-4" hx-post="/user/auth/login" hx-target="#main-content">
+        <div class="mb-3">
+            <input type="email" class="form-control custom-input" name="email" placeholder="이메일" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control custom-input" name="password" placeholder="비밀번호" required>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+            <label class="form-check-label" for="remember">
+                로그인 상태 유지
+            </label>
+        </div>
+        <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary-custom btn-lg">로그인</button>
+        </div>
+    </form>
+
+    <div class="text-center mb-4">
+        <p class="mb-3">
+            <a href="#" class="text-decoration-none">비밀번호를 잊으셨나요?</a>
+        </p>
+        <p class="text-muted mb-3">아직 계정이 없으신가요?</p>
+        <div class="d-grid mb-3">
+            <button type="button" class="btn btn-outline-primary-custom" 
+                    hx-get="/user/signup" hx-target="body">
+                회원가입
+            </button>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="button" class="btn btn-link text-muted" 
+                hx-get="/" hx-target="body">
+            <i class="fas fa-arrow-left me-2"></i>돌아가기
+        </button>
+    </div>
+</div>
+
+<!-- 페이지별 스크립트 -->
+<th:block layout:fragment="scripts">
+    <script>
+        // 로그인 관련 스크립트
+        document.body.addEventListener('htmx:beforeRequest', function(event) {
+            // 로딩 표시
+            document.querySelector('.loading-spinner').style.display = 'block';
+        });
+
+        document.body.addEventListener('htmx:afterRequest', function(event) {
+            // 로딩 숨김
+            document.querySelector('.loading-spinner').style.display = 'none';
+        });
+    </script>
+</th:block>
+</html>

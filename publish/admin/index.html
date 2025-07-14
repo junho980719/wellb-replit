@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>관리자 대시보드</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="admin-body">
+    <!-- 상단 네비게이션 -->
+    <div class="admin-navbar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <div class="admin-logo">
+                        <span class="logo-icon">⚡</span>
+                        메인
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="admin-nav-menu">
+                        <a href="#" class="nav-link">홈</a>
+                        <a href="#" class="nav-link">수업</a>
+                        <a href="#" class="nav-link">회원</a>
+                        <a href="#" class="nav-link">강사</a>
+                        <a href="#" class="nav-link">황상/설문/문의</a>
+                        <a href="#" class="nav-link">공지사항/문의</a>
+                        <a href="#" class="nav-link">센터정보</a>
+                        <a href="#" class="nav-link">관리자권한</a>
+                        <a href="#" class="nav-link">질문/토론</a>
+                    </div>
+                </div>
+                <div class="col-2 text-end">
+                    <span class="text-white">관리자명 LOGOUT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 컨테이너 -->
+    <div class="admin-container">
+        <!-- 사이드바 -->
+        <div class="admin-sidebar">
+            <div class="sidebar-menu">
+                <div class="menu-item active">입/퇴원</div>
+                <div class="menu-item">수업</div>
+                <div class="menu-item">회원</div>
+                <div class="menu-item">공지사항/문의</div>
+            </div>
+        </div>
+
+        <!-- 메인 콘텐츠 -->
+        <div class="admin-content">
+            <!-- 헤더 -->
+            <div class="content-header">
+                <div class="row">
+                    <div class="col-8">
+                        <select class="form-select" style="max-width: 200px;">
+                            <option>센터명 / 전체 센터 선택</option>
+                        </select>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button class="btn btn-primary">회원명 / 전화번호</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 대시보드 콘텐츠 -->
+            <div class="dashboard-content">
+                <div class="row">
+                    <!-- 센터 정보 -->
+                    <div class="col-md-4">
+                        <div class="dashboard-card orange">
+                            <h6>센터 정보</h6>
+                            <div class="card-content">
+                                <div class="text-center mb-3">
+                                    <strong>등록 회원 수</strong><br>
+                                    <span class="fs-5">(진행 / 휴원 / 수강)</span>
+                                </div>
+                                <div class="text-center">
+                                    <strong>등록 강사수</strong><br>
+                                    <span class="fs-5">(진행/휴강 과정 외부 강사)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 센터 공지사항 -->
+                    <div class="col-md-8">
+                        <div class="dashboard-card orange">
+                            <h6>센터 공지사항</h6>
+                            <div class="card-content">
+                                <div class="row h-100">
+                                    <div class="col-6">
+                                        <div class="text-center">
+                                            <strong>가장 / 협회 공지사항</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center">
+                                            <strong>센터 공지사항</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- 오늘의 수업 현황 -->
+                    <div class="col-md-4">
+                        <div class="dashboard-card gray">
+                            <h6>오늘의 수업 현황</h6>
+                            <div class="card-content">
+                                <div class="info-item">
+                                    <span>시간 / 강의명 / 정원 / 예약 인원 / 출석률</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>시간 / 강의명 / 정원 / 예약 인원 / 출석률</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>시간 / 강의명 / 정원 / 예약 인원 / 출석률</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>시간 / 강의명 / 정원 / 예약 인원 / 출석률</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>시간 / 강의명 / 정원 / 예약 인원 / 출석률</span>
+                                    <span class="text-muted">수강 상태(댓글)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 상담 예약 안내 -->
+                    <div class="col-md-4">
+                        <div class="dashboard-card gray">
+                            <h6>상담 예약 안내</h6>
+                            <div class="card-content">
+                                <div class="info-item">
+                                    <span>오늘 예약된 상담 수</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>상담 대상자 이름 / 시간 / 상담사(상담원, 예약)</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>상담 대상자 이름 / 시간 / 상담사(상담원, 예약)</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>상담 대상자 이름 / 시간 / 상담사(상담원, 예약)</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>상담 대상자 이름 / 시간 / 상담사(상담원, 예약)</span>
+                                    <span class="text-muted">상담 회원(댓글)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 공지/문의/불만 사항 -->
+                    <div class="col-md-4">
+                        <div class="dashboard-card white">
+                            <h6 style="background-color: #e67e22;">공지</h6>
+                            <div class="card-content">
+                                <div class="notice-grid">
+                                    <div class="notice-item">
+                                        <div>
+                                            <div>오늘 / 직원 / 실시 예약</div>
+                                            <div>수강/설문/문 갖버</div>
+                                            <small>간단한 그래프로 보시</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <button class="btn btn-sm" style="background-color: #e74c3c; color: white;">접수현황</button>
+                                        </div>
+                                    </div>
+                                    <div class="notice-item">
+                                        <div class="text-end">
+                                            <button class="btn btn-sm" style="background-color: #e74c3c; color: white;">접수</button>
+                                        </div>
+                                    </div>
+                                    <div class="notice-item">
+                                        <div class="text-end">
+                                            <button class="btn btn-sm" style="background-color: #e74c3c; color: white;">접수</button>
+                                        </div>
+                                    </div>
+                                    <div class="notice-item">
+                                        <div class="text-end">
+                                            <button class="btn btn-sm" style="background-color: #e74c3c; color: white;">예정선택</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 하단 -->
+            <div class="main-screen-footer">
+                <div class="text-center py-4">
+                    <h2>메인 화면</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

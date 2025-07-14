@@ -59,3 +59,4 @@ yarn-error.log*
 
 # --- 기타 ---
 *.local
+/publish/attached_assets/

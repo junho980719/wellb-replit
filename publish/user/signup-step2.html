@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>회원가입 - 2단계</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../style.css" rel="stylesheet" type="text/css" />
+    <style>
+        .step-tabs {
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            margin: 0 -20px;
+            margin-bottom: 20px;
+        }
+
+        .step-tab {
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .step-tab.active {
+            border-bottom-color: #6c5ce7;
+            color: #6c5ce7;
+            background-color: #f8f9ff;
+        }
+
+        .step-tab:hover:not(.active) {
+            background-color: #f8f9fa;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 0 20px 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .empty-tab-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            text-align: center;
+        }
+
+        .body-type-option {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .body-type-option.selected {
+            background-color: #6c5ce7;
+            color: white;
+            border-color: #6c5ce7;
+        }
+
+        .body-type-option:hover:not(.selected) {
+            background-color: #e9ecef;
+        }
+
+        .health-checkbox {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .health-checkbox.checked {
+            background-color: #fff5f5;
+            border-color: #ff6b6b;
+        }
+
+        .goal-option {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .goal-option.selected {
+            background-color: #6c5ce7;
+            color: white;
+            border-color: #6c5ce7;
+        }
+
+        .goal-option:hover:not(.selected) {
+            background-color: #e9ecef;
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+        }
+
+        /* 주소 검색 팝업 스타일 */
+        .address-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+        }
+
+        .address-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-header {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .popup-close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .popup-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .search-input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            border-color: #6c5ce7;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c5ce7;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .center-card {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .center-card:hover {
+            border-color: #6c5ce7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+        }
+
+        .center-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .center-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .center-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .center-address {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .center-connect-btn {
+            width: 100%;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .center-connect-btn:hover {
+            background-color: #5a52d5;
+        }
+
+        .selected-center-card {
+            background-color: #f8f9ff;
+            border: 2px solid #6c5ce7;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .center-logo-area {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .center-info .center-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .center-info .center-address {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .search-examples {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            border: 2px dashed #e9ecef;
+        }
+
+        .example-item {
+            text-align: left;
+        }
+
+        .example-label {
+            font-size: 13px;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .example-value {
+            font-size: 15px;
+            color: #6c5ce7;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body class="login-body">
+    <div class="w-100 h-100">
+        <!-- 헤더 -->
+        <div class="header-section">
+            <div class="container-fluid">
+                <div class="row align-items-center p-3">
+                    <div class="col-2">
+                        <button type="button" class="btn btn-link text-white p-0" onclick="location.href='signup.html'">
+                            <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+                    <div class="col-8 text-center">
+                        <h5 class="text-white mb-0">회원가입 - 2단계</h5>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메인 컨텐츠 -->
+        <div class="signup-form-container">
+            <!-- 진행 상태 -->
+            <div class="text-center mb-4" style="margin-top: 0; padding-top: 0;">
+                <div class="app-logo">
+                    <div class="check-icon mx-auto mb-3">
+                        <span>2</span>
+                    </div>
+                    <h4 class="text-dark mb-2">추가 정보 입력</h4>
+                    <p class="text-muted">건강정보와 센터 등록을 완료해주세요</p>
+                </div>
+            </div>
+
+            <!-- 탭 메뉴 -->
+            <div class="step-tabs">
+                <div class="row g-0">
+                    <div class="col-4">
+                        <div class="step-tab active" onclick="showTab('health')">
+                            <i class="fas fa-heartbeat mb-1"></i>
+                            <div>건강정보</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="step-tab" onclick="showTab('center')">
+                            <i class="fas fa-building mb-1"></i>
+                            <div>센터등록</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="step-tab" onclick="showTab('contract')">
+                            <i class="fas fa-file-contract mb-1"></i>
+                            <div>계약서</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 건강정보 탭 -->
+            <div id="healthTab" class="tab-content active">
+                <form>
+                    <!-- 신체 정보 -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">신체 정보</h6>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label for="height" class="form-label">키 (cm)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control custom-input" id="height"
+                                        placeholder="170">
+                                    <span class="input-group-text">cm</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label for="weight" class="form-label">체중 (kg)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control custom-input" id="weight" placeholder="65">
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">체형 유형</label>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="body-type-option" onclick="selectBodyType('slim', this)">
+                                        <i class="fas fa-user mb-2"></i>
+                                        <div>마른형</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="body-type-option" onclick="selectBodyType('normal', this)">
+                                        <i class="fas fa-user mb-2"></i>
+                                        <div>보통형</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="body-type-option" onclick="selectBodyType('muscular', this)">
+                                        <i class="fas fa-user mb-2"></i>
+                                        <div>근육형</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="bodyType" name="bodyType">
+                        </div>
+                    </div>
+
+                    <!-- 건강 상태 -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">건강 상태 (해당사항을 선택해주세요)</h6>
+
+                        <div class="health-checkbox" onclick="toggleHealthCheck(this, 'disease')">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="disease">
+                                <label class="form-check-label" for="disease">
+                                    <strong>질환 보유</strong>
+                                    <div class="text-muted small">당뇨, 고혈압, 심장질환 등</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="health-checkbox" onclick="toggleHealthCheck(this, 'pain')">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="pain">
+                                <label class="form-check-label" for="pain">
+                                    <strong>통증 부위</strong>
+                                    <div class="text-muted small">목, 어깨, 허리, 무릎 등</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="health-checkbox" onclick="toggleHealthCheck(this, 'surgery')">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="surgery">
+                                <label class="form-check-label" for="surgery">
+                                    <strong>수술 이력</strong>
+                                    <div class="text-muted small">최근 6개월 내 수술 경험</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="health-checkbox" onclick="toggleHealthCheck(this, 'restriction')">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="restriction">
+                                <label class="form-check-label" for="restriction">
+                                    <strong>운동 제한</strong>
+                                    <div class="text-muted small">의사의 운동 제한 권고사항</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 운동 목표 -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">운동 목표 (중복 선택 가능)</h6>
+
+                        <div class="goal-option" onclick="toggleGoal('fitness', this)">
+                            <i class="fas fa-dumbbell mb-2" style="font-size: 24px;"></i>
+                            <div class="fw-semibold">체력 강화</div>
+                            <small class="text-muted">근력 및 지구력 향상</small>
+                        </div>
+
+                        <div class="goal-option" onclick="toggleGoal('rehabilitation', this)">
+                            <i class="fas fa-medkit mb-2" style="font-size: 24px;"></i>
+                            <div class="fw-semibold">재활</div>
+                            <small class="text-muted">부상 회복 및 기능 개선</small>
+                        </div>
+
+                        <div class="goal-option" onclick="toggleGoal('diet', this)">
+                            <i class="fas fa-weight mb-2" style="font-size: 24px;"></i>
+                            <div class="fw-semibold">다이어트</div>
+                            <small class="text-muted">체중 감량 및 체형 관리</small>
+                        </div>
+
+                        <div class="goal-option" onclick="toggleGoal('flexibility', this)">
+                            <i class="fas fa-leaf mb-2" style="font-size: 24px;"></i>
+                            <div class="fw-semibold">유연성 향상</div>
+                            <small class="text-muted">몸의 유연성과 균형감각 개선</small>
+                        </div>
+
+                        <input type="hidden" id="goals" name="goals">
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-primary-custom btn-lg" onclick="saveHealthInfo()">
+                            건강정보 저장
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 센터등록 탭 -->
+            <div id="centerTab" class="tab-content">
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-3">센터 찾기</h6>
+                    <p class="text-muted small mb-3">운동하실 센터를 검색하고 등록해주세요</p>
+
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-primary-custom btn-lg" onclick="openAddressSearch()">
+                            <i class="fas fa-search me-2"></i>
+                            주소 검색
+                        </button>
+                    </div>
+
+                    <!-- 선택된 센터 정보 -->
+                    <div id="selectedCenter" class="mt-4" style="display: none;">
+                        <h6 class="fw-bold mb-3">선택된 센터</h6>
+                        <div class="selected-center-card">
+                            <div class="center-logo-area">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="center-info">
+                                <div class="center-name" id="selectedCenterName"></div>
+                                <div class="center-address" id="selectedCenterAddress"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <button type="button" class="btn btn-success btn-lg" onclick="saveCenterInfo()">
+                                <i class="fas fa-check me-2"></i>
+                                센터 등록 완료
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 계약서 탭 -->
+            <div id="contractTab" class="tab-content">
+                <div class="empty-tab-content">
+                    <i class="fas fa-file-contract" style="font-size: 48px; color: #ccc;"></i>
+                    <h5 class="mt-3 text-muted">계약서</h5>
+                    <p class="text-muted">계약서 기능을 준비중입니다.</p>
+                    <button type="button" class="btn btn-outline-primary-custom mt-3" disabled>
+                        준비중
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 주소 검색 팝업 -->
+    <div class="address-popup-overlay" id="addressPopup">
+        <div class="address-popup">
+            <div class="popup-header">
+                <h6 class="mb-0">센터 검색</h6>
+                <button class="popup-close" onclick="closeAddressSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="popup-body">
+                <div class="search-input-group">
+                    <input type="text" class="search-input" id="searchInput" placeholder="지역명을 입력하세요 (예: 강남구, 홍대)"
+                        onkeypress="handleSearchKeyPress(event)">
+                    <i class="fas fa-search search-icon" onclick="searchCenters()"></i>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="button" class="btn btn-primary-custom" onclick="searchCenters()">
+                        <i class="fas fa-search me-2"></i>검색
+                    </button>
+                </div>
+
+                <div id="searchResults">
+                    <!-- 초기 검색 예시 -->
+                    <div class="search-examples">
+                        <p class="text-muted text-center mb-3">검색어를 입력해주세요</p>
+
+                        <div class="example-item mb-3">
+                            <div class="example-label">센터명</div>
+                            <div class="example-value">피트니스 센터</div>
+                        </div>
+
+                        <div class="example-item mb-3">
+                            <div class="example-label">센터주소</div>
+                            <div class="example-value">서울특별시 강남구 테헤란로 123</div>
+                        </div>
+
+                        <div class="example-item mb-3">
+                            <div class="example-label">센터명 + 센터주소</div>
+                            <div class="example-value">피트니스 센터 강남점</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+        let selectedGoals = [];
+        let selectedCenterData = null;
+
+        // 테스트 센터 데이터
+        const testCenters = [
+            {
+                id: 1,
+                name: "피트니스 센터 강남점",
+                address: "서울특별시 강남구 테헤란로 123",
+                icon: "fas fa-dumbbell"
+            },
+            {
+                id: 2,
+                name: "요가 스튜디오 홍대",
+                address: "서울특별시 마포구 홍익로 456",
+                icon: "fas fa-leaf"
+            },
+            {
+                id: 3,
+                name: "헬스앤요가 강남",
+                address: "서울특별시 강남구 강남대로 789",
+                icon: "fas fa-heart"
+            },
+            {
+                id: 4,
+                name: "프리미엄 휘트니스 홍대점",
+                address: "서울특별시 마포구 와우산로 321",
+                icon: "fas fa-fire"
+            },
+            {
+                id: 5,
+                name: "스마트 짐 강남센터",
+                address: "서울특별시 강남구 논현로 654",
+                icon: "fas fa-bolt"
+            }
+        ];
+
+        // 주소 검색 팝업 열기
+        function openAddressSearch() {
+            document.getElementById('addressPopup').style.display = 'block';
+            document.getElementById('searchInput').focus();
+        }
+
+        // 주소 검색 팝업 닫기
+        function closeAddressSearch() {
+            document.getElementById('addressPopup').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+            showSearchExamples();
+        }
+
+        // 검색 실행
+        function searchCenters() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const resultsContainer = document.getElementById('searchResults');
+
+            if (!searchTerm) {
+                // 검색어가 없으면 초기 예시 화면 다시 표시
+                showSearchExamples();
+                return;
+            }
+
+            // 검색어와 매칭되는 센터 필터링
+            const filteredCenters = testCenters.filter(center =>
+                center.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                center.address.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filteredCenters.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-muted text-center">검색 결과가 없습니다.</p>';
+                return;
+            }
+
+            // 검색 결과 표시
+            let resultsHTML = '';
+            filteredCenters.forEach(center => {
+                resultsHTML += `
+                    <div class="center-card" onclick="selectCenter(${center.id})">
+                        <div class="center-card-header">
+                            <div class="center-logo">
+                                <i class="${center.icon}"></i>
+                            </div>
+                            <div class="center-name">${center.name}</div>
+                        </div>
+                        <div class="center-address">${center.address}</div>
+                        <button class="center-connect-btn" onclick="event.stopPropagation(); selectCenter(${center.id})">
+                            센터 연동하기
+                        </button>
+                    </div>
+                `;
+            });
+
+            resultsContainer.innerHTML = resultsHTML;
+        }
+
+        // 검색 예시 표시
+        function showSearchExamples() {
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = `
+                <div class="search-examples">
+                    <p class="text-muted text-center mb-3">검색어를 입력해주세요</p>
+                    
+                    <div class="example-item mb-3">
+                        <div class="example-label">센터명</div>
+                        <div class="example-value">피트니스 센터</div>
+                    </div>
+                    
+                    <div class="example-item mb-3">
+                        <div class="example-label">센터주소</div>
+                        <div class="example-value">서울특별시 강남구 테헤란로 123</div>
+                    </div>
+                    
+                    <div class="example-item">
+                        <div class="example-label">센터명 + 센터주소</div>
+                        <div class="example-value">피트니스 센터 강남점</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 센터 선택
+        function selectCenter(centerId) {
+            const center = testCenters.find(c => c.id === centerId);
+            if (!center) return;
+
+            selectedCenterData = center;
+
+            // 선택된 센터 정보 표시
+            document.getElementById('selectedCenterName').textContent = center.name;
+            document.getElementById('selectedCenterAddress').textContent = center.address;
+            document.getElementById('selectedCenter').style.display = 'block';
+
+            // 팝업 닫기
+            closeAddressSearch();
+
+            alert(`${center.name}이(가) 선택되었습니다.`);
+        }
+
+        // 센터 정보 저장
+        function saveCenterInfo() {
+            if (!selectedCenterData) {
+                alert('센터를 선택해주세요.');
+                return;
+            }
+
+            alert(`${selectedCenterData.name} 등록이 완료되었습니다!`);
+
+            // 다음 탭으로 이동 (계약서)
+            showTab('contract');
+        }
+
+        // 엔터키로 검색
+        function handleSearchKeyPress(event) {
+            if (event.key === 'Enter') {
+                searchCenters();
+            }
+        }
+
+        // 팝업 외부 클릭시 닫기
+        document.getElementById('addressPopup').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeAddressSearch();
+            }
+        });
+
+        // 탭 전환
+        function showTab(tabName) {
+            // 모든 탭 비활성화
+            document.querySelectorAll('.step-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 선택된 탭 활성화
+            event.target.closest('.step-tab').classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        // 체형 선택
+        function selectBodyType(type, element) {
+            document.querySelectorAll('.body-type-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('bodyType').value = type;
+        }
+
+        // 건강상태 체크박스 토글
+        function toggleHealthCheck(element, checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            checkbox.checked = !checkbox.checked;
+
+            if (checkbox.checked) {
+                element.classList.add('checked');
+            } else {
+                element.classList.remove('checked');
+            }
+        }
+
+        // 운동목표 토글 (중복선택 가능)
+        function toggleGoal(goal, element) {
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                selectedGoals = selectedGoals.filter(g => g !== goal);
+            } else {
+                element.classList.add('selected');
+                selectedGoals.push(goal);
+            }
+            document.getElementById('goals').value = selectedGoals.join(',');
+        }
+
+        // 건강정보 저장
+        function saveHealthInfo() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const bodyType = document.getElementById('bodyType').value;
+
+            if (!height || !weight) {
+                alert('키와 체중을 입력해주세요.');
+                return;
+            }
+
+            if (!bodyType) {
+                alert('체형 유형을 선택해주세요.');
+                return;
+            }
+
+            if (selectedGoals.length === 0) {
+                alert('운동 목표를 하나 이상 선택해주세요.');
+                return;
+            }
+
+            alert('건강정보가 저장되었습니다!');
+
+            // 다음 단계로 이동 또는 홈으로 이동
+            if (confirm('회원가입을 완료하고 홈으로 이동하시겠습니까?')) {
+                location.href = 'index.html';
+            }
+        }
+
+        // BMI 자동 계산 (선택사항)
+        function calculateBMI() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+
+            if (height && weight) {
+                const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+                console.log('BMI:', bmi);
+            }
+        }
+
+        // 키, 체중 입력시 BMI 계산
+        document.getElementById('height').addEventListener('input', calculateBMI);
+        document.getElementById('weight').addEventListener('input', calculateBMI);
+    </script>
+</body>
+
+</html>

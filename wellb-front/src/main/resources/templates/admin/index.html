@@ -1,25 +1,89 @@
 
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/admin-layout}">
 
 <div layout:fragment="content">
-    <div style="background-color: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 20px rgba(0,0,0,0.1);">
-        <h2 style="color: #2c3e50; margin-bottom: 1.5rem; border-bottom: 2px solid #e74c3c; padding-bottom: 0.5rem;">
-            관리자 페이지
-        </h2>
-        
-        <p style="font-size: 1.1rem; color: #555; margin-bottom: 2rem;" th:text="${message}">
-            Admin Management Page
-        </p>
-        
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a th:href="@{/admin/login}" class="btn" style="background-color: #e74c3c; color: white;">
-                관리자 로그인
-            </a>
-            <a th:href="@{/}" class="btn btn-secondary">
-                홈으로
-            </a>
+    <div class="content-header">
+        <h3 style="margin: 0; color: #2c3e50;">대시보드</h3>
+        <p style="margin: 0; color: #7f8c8d;">요가 스튜디오 관리 시스템</p>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="dashboard-card orange">
+                    <h6>오늘의 수업</h6>
+                    <div style="display: flex; align-items: center; height: 100px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 32px; font-weight: bold; color: #e67e22;">8</div>
+                            <div style="color: #7f8c8d;">건</div>
+                        </div>
+                        <div style="font-size: 48px; color: #e67e22; opacity: 0.3;">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card gray">
+                    <h6>이번 달 신규 회원</h6>
+                    <div style="display: flex; align-items: center; height: 100px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 32px; font-weight: bold; color: #95a5a6;">24</div>
+                            <div style="color: #7f8c8d;">명</div>
+                        </div>
+                        <div style="font-size: 48px; color: #95a5a6; opacity: 0.3;">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card white">
+                    <h6>전체 회원</h6>
+                    <div style="display: flex; align-items: center; height: 100px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 32px; font-weight: bold; color: #bdc3c7;">156</div>
+                            <div style="color: #7f8c8d;">명</div>
+                        </div>
+                        <div style="font-size: 48px; color: #bdc3c7; opacity: 0.3;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="dashboard-card">
+                <h6 style="background-color: #3498db;">수업 현황</h6>
+                <div style="padding: 20px;">
+                    <p>최근 수업 예약 및 참석 현황을 확인할 수 있습니다.</p>
+                    <!-- 차트나 테이블이 들어갈 영역 -->
+                    <div style="height: 200px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #7f8c8d;">
+                        차트 영역
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h6 style="background-color: #9b59b6;">최근 활동</h6>
+                <div style="padding: 20px;">
+                    <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 10px;">
+                        <i class="fas fa-user"></i> 김영희님이 요가 클래스에 참여했습니다.
+                    </div>
+                    <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 10px;">
+                        <i class="fas fa-calendar"></i> 새로운 수업이 예약되었습니다.
+                    </div>
+                    <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 10px;">
+                        <i class="fas fa-credit-card"></i> 결제가 완료되었습니다.
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

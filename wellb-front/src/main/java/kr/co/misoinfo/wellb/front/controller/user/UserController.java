@@ -1,3 +1,4 @@
+
 package kr.co.misoinfo.wellb.front.controller.user;
 
 import kr.co.misoinfo.wellb.front.controller.BaseController;
@@ -11,18 +12,28 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
-    @GetMapping("/login")
-    public String login(Model model, HttpServletRequest request) {
-        model.addAttribute("title", "User Login");
-
-        return getTemplateName(request, "user/login", "user/login-content");
-    }
-
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request) {
         model.addAttribute("message", "User Management Page");
         model.addAttribute("title", "User Management");
-
         return getTemplateName(request, "user/index", "user/index-content");
+    }
+
+    @GetMapping("/login")
+    public String login(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "User Login");
+        return getTemplateName(request, "user/login", "user/login-content");
+    }
+
+    @GetMapping("/signup")
+    public String signup(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "User Signup");
+        return getTemplateName(request, "user/signup", "user/signup-content");
+    }
+
+    @GetMapping("/signup-step2")
+    public String signupStep2(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "User Signup Step 2");
+        return getTemplateName(request, "user/signup-step2", "user/signup-step2-content");
     }
 }

@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user-layout}">
+
+<div layout:fragment="content">
+    <div class="login-container-mobile">
+        <div class="login-header-mobile">
+            <button class="back-btn" 
+                    hx-get="/user/signup" 
+                    hx-target="#main-content" 
+                    hx-push-url="true"
+                    hx-swap="innerHTML show:window:top">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="login-title-mobile">추가 정보</h1>
+        </div>
+        
+        <div class="login-content-mobile">
+            <div class="login-logo-mobile">
+                <i class="fas fa-user-edit logo-icon-mobile"></i>
+                <h2 class="welcome-text-mobile">거의 다 됐어요!</h2>
+                <p class="subtitle-mobile">추가 정보를 입력해주세요</p>
+            </div>
+            
+            <form>
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">생년월일</label>
+                    <input type="date" class="form-control-mobile">
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">성별</label>
+                    <select class="form-control-mobile">
+                        <option value="">성별을 선택하세요</option>
+                        <option value="male">남성</option>
+                        <option value="female">여성</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">관심 있는 요가 유형</label>
+                    <select class="form-control-mobile">
+                        <option value="">선택해주세요</option>
+                        <option value="hatha">하타 요가</option>
+                        <option value="vinyasa">빈야사 요가</option>
+                        <option value="yin">음 요가</option>
+                        <option value="power">파워 요가</option>
+                        <option value="prenatal">산전 요가</option>
+                    </select>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">요가 경험</label>
+                    <select class="form-control-mobile">
+                        <option value="">선택해주세요</option>
+                        <option value="beginner">초보자 (6개월 미만)</option>
+                        <option value="intermediate">중급자 (6개월~2년)</option>
+                        <option value="advanced">상급자 (2년 이상)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label class="form-label-mobile">주소 (선택)</label>
+                    <input type="text" class="form-control-mobile" placeholder="주소를 입력하세요">
+                </div>
+                
+                <button type="submit" class="btn-login-mobile">
+                    회원가입 완료
+                </button>
+                
+                <div class="signup-section-mobile">
+                    <p class="signup-text-mobile">이전 단계로 돌아가시겠어요?</p>
+                    <a th:href="@{/user/signup}" 
+                       hx-get="/user/signup" 
+                       hx-target="#main-content" 
+                       hx-push-url="true"
+                       hx-swap="innerHTML show:window:top"
+                       class="btn-signup-mobile">
+                        이전 단계
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

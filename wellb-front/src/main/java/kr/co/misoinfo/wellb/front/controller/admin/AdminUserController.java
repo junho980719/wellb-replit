@@ -12,18 +12,16 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/admin")
 public class AdminUserController extends BaseController {
 
+    @GetMapping("/")
+    public String index(Model model, HttpServletRequest request) {
+        model.addAttribute("message", "Admin Dashboard");
+        model.addAttribute("title", "Admin Dashboard");
+        return getTemplateName(request, "admin/index", "admin/index-content");
+    }
+
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
         model.addAttribute("title", "Admin Login");
-
         return getTemplateName(request, "admin/login", "admin/login-content");
-    }
-
-    @GetMapping("/")
-    public String index(Model model, HttpServletRequest request) {
-        model.addAttribute("message", "Admin Management Page");
-        model.addAttribute("title", "Admin Management");
-
-        return getTemplateName(request, "admin/index", "admin/index-content");
     }
 }

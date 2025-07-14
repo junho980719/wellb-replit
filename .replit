@@ -16,5 +16,5 @@ task = "shell.exec"
 args = "./gradlew :wellb-front:bootRun --stacktrace --info"
 
 [[ports]]
-localPort = 5000
+localPort = 8080
 externalPort = 80

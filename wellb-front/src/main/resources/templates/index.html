@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웰빙 요가</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (아이콘) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 간단한 커스텀 스타일 */
+        body {
+            background-color: #f8f9fa;
+        }
+        .menu-item {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        }
+        /* 아이콘 색상 */
+        .icon-login { color: #0d6efd; }
+        .icon-signup { color: #198754; }
+        .icon-admin { color: #6f42c1; }
+        .icon-info { color: #0dcaf0; }
+    </style>
+</head>
+<body>
+
+<div class="container py-4">
+
+    <!-- 1. 헤더 영역: Bootstrap 텍스트 및 간격 유틸리티 사용 -->
+    <header class="text-center my-5">
+        <div class="display-1"></div>
+        <h1 class="display-4 fw-bold mt-3">Well Be</h1>
+        <p class="lead text-muted">Well Be Application</p>
+    </header>
+
+    <!-- 2. 메뉴 영역: Bootstrap 그리드 시스템(row, col)으로 반응형 레이아웃 구성 -->
+    <main>
+        <div class="row g-4 justify-content-center text-center">
+            <!-- 회원가입 -->
+            <div class="col-6 col-md-3">
+                <a th:href="@{/user/auth/login}"
+                   hx-get="/user/auth/login"
+                   hx-target="#main-content"
+                   hx-push-url="true"
+                   hx-swap="innerHTML show:window:top"
+                   class="d-block p-4 bg-white border rounded-3 text-decoration-none text-dark shadow-sm h-100 menu-item">
+                    <i class="fas fa-user-plus fa-2x mb-3 icon-signup"></i>
+                    <p class="mb-0 fw-semibold">회원가입</p>
+                </a>
+            </div>
+
+            <!-- 관리자 -->
+            <div class="col-6 col-md-3">
+                <a th:href="@{/admin/auth/login}"
+                   hx-get="/admin/auth/login"
+                   hx-target="body"
+                   hx-push-url="true"
+                   hx-swap="outerHTML"
+                   class="d-block p-4 bg-white border rounded-3 text-decoration-none text-dark shadow-sm h-100 menu-item">
+                    <i class="fas fa-user-shield fa-2x mb-3 icon-admin"></i>
+                    <p class="mb-0 fw-semibold">관리자</p>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 3. 하단 텍스트: 인라인 스타일 제거 및 유틸리티 클래스 적용 -->
+    <footer class="text-center mt-5 py-4">
+        <p class="text-muted small">언제나 함께하는 건강한 라이프스타일</p>
+    </footer>
+
+</div>
+
+<!-- Bootstrap 5 JS (필요 시) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

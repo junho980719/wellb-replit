@@ -1,5 +1,5 @@
 
-package kr.co.misoinfo.wellb.front.config;
+package kr.co.misoinfo.wellb.front.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

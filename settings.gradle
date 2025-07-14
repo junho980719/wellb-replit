@@ -1,4 +1,3 @@
-
 rootProject.name = 'wellb'
 
 include 'wellb-api'

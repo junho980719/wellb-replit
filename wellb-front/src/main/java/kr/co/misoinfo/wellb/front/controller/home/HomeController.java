@@ -1,6 +1,7 @@
 
-package kr.co.misoinfo.wellb.front.controller;
+package kr.co.misoinfo.wellb.front.controller.home;
 
+import kr.co.misoinfo.wellb.front.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

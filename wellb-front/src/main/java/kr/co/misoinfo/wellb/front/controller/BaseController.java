@@ -13,7 +13,7 @@ public abstract class BaseController {
      * @return 반환할 템플릿명
      */
     protected String getTemplateName(HttpServletRequest request, String fullTemplateName, String contentTemplateName) {
-        if (request.getHeader("HX-Request") != null) {
+        if (isHtmxRequest(request)) {
             return contentTemplateName;
         }
         return fullTemplateName;

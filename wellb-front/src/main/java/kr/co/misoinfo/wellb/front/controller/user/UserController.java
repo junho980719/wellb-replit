@@ -1,5 +1,5 @@
 
-package kr.co.misoinfo.wellb.front.controller;
+package kr.co.misoinfo.wellb.front.controller.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

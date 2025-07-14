@@ -15,6 +15,6 @@ public class HomeController extends BaseController {
         model.addAttribute("message", "Welcome to Wellb Front!");
         model.addAttribute("title", "Home");
         
-        return getTemplateName(request, "home/index", "home/index-content");
+        return "home/index";
     }
 }

@@ -64,13 +64,17 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn-login-mobile">
+                <button type="button"
+                        hx-get="/user/auth/signup-step2"
+                        hx-target="#main-content"
+                        hx-push-url="true"
+                        class="btn-login-mobile">
                     다음 단계로
                 </button>
                 
                 <div class="signup-section-mobile">
                     <p class="signup-text-mobile">이미 회원이신가요?</p>
-                    <a th:href="@{/user/login}" 
+                    <a th:href="@{/templates/user/auth}"
                        hx-get="/user/login" 
                        hx-target="#main-content" 
                        hx-push-url="true"

@@ -20,7 +20,7 @@
             <div class="login-logo-mobile">
                 <i class="fas fa-user-circle logo-icon-mobile"></i>
                 <h2 class="welcome-text-mobile">환영합니다!</h2>
-                <p class="subtitle-mobile">웰빙 요가에 로그인하세요</p>
+                <p class="subtitle-mobile">웰비에 로그인하세요</p>
             </div>
             
             <form>
@@ -48,11 +48,7 @@
                 
                 <div class="signup-section-mobile">
                     <p class="signup-text-mobile">아직 회원이 아니신가요?</p>
-                    <a th:href="@{/user/signup}" 
-                       hx-get="/user/signup" 
-                       hx-target="#main-content" 
-                       hx-push-url="true"
-                       hx-swap="innerHTML show:window:top"
+                    <a th:href="@{/user/auth/signup}"
                        class="btn-signup-mobile">
                         회원가입하기
                     </a>

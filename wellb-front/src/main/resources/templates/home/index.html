@@ -9,22 +9,12 @@
         
         <div class="card card-center">
             <p class="subtitle">
-                웰빙 요가 스튜디오에 오신 것을 환영합니다.
+                Wellb Application.
             </p>
             
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a th:href="@{/user/}" 
-                   hx-get="/user/" 
-                   hx-target="#main-content" 
-                   hx-push-url="true"
-                   hx-swap="innerHTML show:window:top"
-                   class="btn btn-primary">사용자 앱</a>
-                <a th:href="@{/admin/}" 
-                   hx-get="/admin/" 
-                   hx-target="body" 
-                   hx-push-url="true"
-                   hx-swap="outerHTML"
-                   class="btn" style="background-color: #e74c3c; color: white;">관리자 페이지</a>
+                <a th:href="@{/user/auth/login}" class="btn btn-primary">사용자 앱</a>
+                <a th:href="@{/admin/auth/login}" class="btn" style="background-color: #e74c3c; color: white;">관리자 페이지</a>
             </div>
         </div>
     </div>

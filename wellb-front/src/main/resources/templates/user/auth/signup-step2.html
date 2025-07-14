@@ -65,8 +65,12 @@
                     <label class="form-label-mobile">주소 (선택)</label>
                     <input type="text" class="form-control-mobile" placeholder="주소를 입력하세요">
                 </div>
-                
-                <button type="submit" class="btn-login-mobile">
+
+                <button type="button"
+                        hx-get="/user"
+                        hx-target="#main-content"
+                        hx-push-url="true"
+                        class="btn-login-mobile">
                     회원가입 완료
                 </button>
                 

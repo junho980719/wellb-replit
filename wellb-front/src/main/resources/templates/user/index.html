@@ -12,8 +12,8 @@
 
     <div class="user-menu">
         <div class="menu-grid">
-            <a th:href="@{/user/login}" 
-               hx-get="/user/login" 
+            <a th:href="@{/templates/user/auth/login}"
+               hx-get="/user/auth/login" 
                hx-target="#main-content" 
                hx-push-url="true"
                hx-swap="innerHTML show:window:top"
@@ -22,8 +22,8 @@
                 <p class="menu-text">로그인</p>
             </a>
             
-            <a th:href="@{/user/signup}" 
-               hx-get="/user/signup" 
+            <a th:href="@{/user/auth/auth/signup}"
+               hx-get="/user/auth/signup" 
                hx-target="#main-content" 
                hx-push-url="true"
                hx-swap="innerHTML show:window:top"

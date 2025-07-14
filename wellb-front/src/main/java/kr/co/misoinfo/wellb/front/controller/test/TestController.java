@@ -15,7 +15,6 @@ public class TestController extends BaseController {
     @GetMapping("/ui")
     public String uiTest(Model model, HttpServletRequest request) {
         model.addAttribute("title", "UI Components Test");
-        
-        return getTemplateName(request, "test/ui-test", "test/ui-test-content");
+        return "test/ui-test";
     }
 }

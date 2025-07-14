@@ -16,12 +16,12 @@ public class AdminUserController extends BaseController {
     public String index(Model model, HttpServletRequest request) {
         model.addAttribute("message", "Admin Dashboard");
         model.addAttribute("title", "Admin Dashboard");
-        return getTemplateName(request, "admin/index", "admin/index-content");
+        return "admin/index";
     }
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
         model.addAttribute("title", "Admin Login");
-        return getTemplateName(request, "admin/login", "admin/login-content");
+        return "admin/login";
     }
 }

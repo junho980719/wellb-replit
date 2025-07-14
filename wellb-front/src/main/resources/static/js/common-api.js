@@ -1,131 +1,64 @@
+/**
+ * 공통 API 통신 모듈
+ */
+
+const API_BASE_URL = 'http://localhost:5000/api';
 
 /**
- * 공통 API 통신 유틸리티
+ * API 요청 공통 함수
  */
-class ApiUtil {
-    /**
-     * 기본 API 요청 함수
-     * @param {string} url - 요청할 URL
-     * @param {Object} options - 요청 옵션
-     * @returns {Promise} - fetch 응답 Promise
-     */
-    static async request(url, options = {}) {
-        const defaultOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            credentials: 'same-origin'
-        };
+async function apiRequest(url, options = {}) {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        },
+        ...options
+    };
 
-        // 옵션 병합
-        const finalOptions = {
-            ...defaultOptions,
-            ...options,
-            headers: {
-                ...defaultOptions.headers,
-                ...options.headers
-            }
-        };
+    try {
+        console.log('API Request:', config.method || 'GET', url, config.body ? JSON.parse(config.body) : '');
 
-        // POST/PUT/PATCH 요청이고 body가 객체인 경우 JSON으로 변환
-        if (['POST', 'PUT', 'PATCH'].includes(finalOptions.method) && 
-            finalOptions.body && 
-            typeof finalOptions.body === 'object' && 
-            !(finalOptions.body instanceof FormData)) {
-            finalOptions.body = JSON.stringify(finalOptions.body);
+        const response = await fetch(`${API_BASE_URL}${url}`, config);
+        const data = await response.json();
+
+        console.log('API Response:', data);
+
+        if (!response.ok) {
+            throw new Error(data.message || '요청 처리 중 오류가 발생했습니다.');
         }
 
-        try {
-            const response = await fetch(url, finalOptions);
-            
-            // 응답이 JSON인지 확인
-            const contentType = response.headers.get('content-type');
-            let data;
-            
-            if (contentType && contentType.includes('application/json')) {
-                data = await response.json();
-            } else {
-                data = await response.text();
-            }
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}, message: ${data}`);
-            }
-
-            return {
-                success: true,
-                data: data,
-                status: response.status,
-                headers: response.headers
-            };
-        } catch (error) {
-            console.error('API Request Error:', error);
-            return {
-                success: false,
-                error: error.message,
-                status: error.status || 500
-            };
-        }
-    }
-
-    /**
-     * GET 요청
-     */
-    static get(url, options = {}) {
-        return this.request(url, { ...options, method: 'GET' });
-    }
-
-    /**
-     * POST 요청
-     */
-    static post(url, data = null, options = {}) {
-        return this.request(url, { 
-            ...options, 
-            method: 'POST', 
-            body: data 
-        });
-    }
-
-    /**
-     * PUT 요청
-     */
-    static put(url, data = null, options = {}) {
-        return this.request(url, { 
-            ...options, 
-            method: 'PUT', 
-            body: data 
-        });
-    }
-
-    /**
-     * DELETE 요청
-     */
-    static delete(url, options = {}) {
-        return this.request(url, { ...options, method: 'DELETE' });
-    }
-
-    /**
-     * 파일 업로드 요청
-     */
-    static uploadFile(url, formData, options = {}) {
-        const uploadOptions = {
-            ...options,
-            method: 'POST',
-            body: formData,
-            headers: {
-                // FormData 사용시 Content-Type 헤더를 제거하여 브라우저가 자동 설정하도록 함
-                ...options.headers
-            }
-        };
-        
-        // Content-Type 제거
-        delete uploadOptions.headers['Content-Type'];
-        
-        return this.request(url, uploadOptions);
+        return data;
+    } catch (error) {
+        console.error('API Request Error:', error);
+        throw error;
     }
 }
 
-// 전역으로 사용할 수 있도록 window 객체에 추가
-window.ApiUtil = ApiUtil;
+/**
+ * User API 모듈
+ */
+const UserAPI = {
+    // 회원가입
+    async signup(userData) {
+        return await apiRequest('/user/signup', {
+            method: 'POST',
+            body: JSON.stringify(userData)
+        });
+    },
+
+    // 이메일 중복 체크
+    async checkEmail(email) {
+        return await apiRequest(`/user/check-email?email=${encodeURIComponent(email)}`);
+    },
+
+    // 연락처 중복 체크
+    async checkPhone(phone) {
+        return await apiRequest(`/user/check-phone?phone=${encodeURIComponent(phone)}`);
+    }
+};
+
+/**
+ * 전역 객체로 등록
+ */
+window.UserAPI = UserAPI;

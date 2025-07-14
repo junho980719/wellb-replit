@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <form class="mb-4" hx-post="/user/auth/signup" hx-target="#main-content">
+    <form class="mb-4" onsubmit="handleSignup(event)">
         <!-- 이름 -->
         <div class="mb-3">
             <label for="name" class="form-label fw-semibold">이름 <span class="text-danger">*</span></label>
@@ -154,8 +154,7 @@
         </div>
 
         <div class="d-grid mt-4">
-            <button type="button" class="btn btn-primary-custom btn-lg" 
-                    hx-get="/user" hx-target="body">
+            <button type="submit" class="btn btn-primary-custom btn-lg">
                 회원가입
             </button>
         </div>
@@ -267,6 +266,64 @@
                 value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
             }
             e.target.value = value;
+        });
+        
+        // 회원가입 처리
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const userData = {
+                name: formData.get('name'),
+                birthdate: formData.get('birthdate'),
+                gender: formData.get('gender'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                password: 'temp123!', // 임시 비밀번호 (실제로는 비밀번호 입력 필드 필요)
+                marketingConsent: formData.get('marketing') === 'on'
+            };
+            
+            // 필수 필드 체크
+            if (!userData.name || !userData.birthdate || !userData.gender || !userData.phone || !userData.email) {
+                alert('필수 정보를 모두 입력해주세요.');
+                return;
+            }
+            
+            // 필수 약관 동의 체크
+            if (!formData.get('terms') || !formData.get('privacy')) {
+                alert('필수 약관에 동의해주세요.');
+                return;
+            }
+            
+            try {
+                const result = await UserAPI.signup(userData);
+                
+                if (result.success) {
+                    alert('회원가입이 완료되었습니다!');
+                    // 로그인 페이지로 이동
+                    htmx.ajax('GET', '/user/auth/login', {target: 'body'});
+                } else {
+                    alert(result.message || '회원가입 중 오류가 발생했습니다.');
+                }
+            } catch (error) {
+                alert(error.message || '회원가입 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // 이메일 중복 체크
+        document.getElementById('email').addEventListener('blur', async function() {
+            const email = this.value;
+            if (email) {
+                try {
+                    const result = await UserAPI.checkEmail(email);
+                    if (result.exists) {
+                        alert(result.message);
+                        this.focus();
+                    }
+                } catch (error) {
+                    console.error('이메일 중복 체크 오류:', error);
+                }
+            }
         });
     </script>
 </th:block>

@@ -12,7 +12,6 @@ public class HomeController {
     public String index(Model model) {
         model.addAttribute("message", "Welcome to Wellb Front!");
         model.addAttribute("title", "Home");
-        model.addAttribute("contentPage", "../home/index.jsp");
-        return "layout/layout";
+        return "home/index";
     }
 }

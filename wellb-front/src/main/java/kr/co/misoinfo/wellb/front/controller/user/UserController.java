@@ -19,4 +19,22 @@ public class UserController extends BaseController {
         return "user/index";
     }
 
+    @GetMapping("/auth/login")
+    public String login(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "로그인");
+        return "user/auth/login";
+    }
+
+    @GetMapping("/auth/signup")
+    public String signup(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "회원가입");
+        return "user/auth/signup";
+    }
+
+    @GetMapping("/auth/signup-step2")
+    public String signupStep2(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "추가 정보");
+        return "user/auth/signup-step2";
+    }
+
 }

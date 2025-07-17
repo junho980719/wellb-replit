@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {
 		"kr.co.wellbe.admin",
+		"kr.co.wellbe.domain",
 		"kr.co.misoinfo.core",
 })
 public class WellbeAdminApiApplication {

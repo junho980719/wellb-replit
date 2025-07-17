@@ -2,7 +2,7 @@
 package kr.co.wellbe.user.app.controller.user;
 
 import kr.co.misoinfo.core.common.response.ApiResult;
-import kr.co.wellbe.user.app.domain.user.User;
+import kr.co.wellbe.domain.entity.user.User;
 import kr.co.wellbe.user.app.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

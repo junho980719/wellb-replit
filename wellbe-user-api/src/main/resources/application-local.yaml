@@ -1,19 +1,23 @@
+server:
+  port: '5000'
+
 spring:
   datasource:
-    username: sa
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    password: password
-  h2:
-    console:
-      enabled: 'true'
+    url: jdbc:mysql://localhost:3306/wellbe?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: wellbe
+    password: wellbe#1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
-    show-sql: 'true'
+      ddl-auto: update   # \uAC1C\uBC1C \uC2DC\uC5D0\uB294 update, \uC6B4\uC601 \uC2DC\uC5D0\uB294 validate \uB610\uB294 none \uAD8C\uC7A5
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
   web:
     resources:
       add-mappings: 'false'
-server:
-  port: '5000'
+
+logging:
+  level:
+    org.hibernate.SQL: debug

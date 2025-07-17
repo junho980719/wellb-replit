@@ -2,8 +2,8 @@ package kr.co.wellbe.admin.app.service.user;
 
 import kr.co.misoinfo.core.common.exception.BusinessException;
 import kr.co.misoinfo.core.common.exception.ErrorCode;
-import kr.co.wellbe.admin.app.domain.user.User;
-import kr.co.wellbe.admin.app.repository.user.UserRepository;
+import kr.co.wellbe.domain.entity.user.User;
+import kr.co.wellbe.domain.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,5 @@
 
-package kr.co.wellbe.admin.app.domain.user;
+package kr.co.wellbe.domain.entity.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

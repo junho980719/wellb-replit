@@ -1,7 +1,7 @@
 
-package kr.co.wellbe.admin.app.repository.user;
+package kr.co.wellbe.domain.repository.user;
 
-import kr.co.wellbe.admin.app.domain.user.User;
+import kr.co.wellbe.domain.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

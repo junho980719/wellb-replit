@@ -5,7 +5,7 @@
 <nav class="bottom-navigation" th:fragment="bottomNav (currentPage)">
     <ul class="nav-container">
         <li class="nav-item" th:classappend="${currentPage == 'main' ? ' active' : ''}">
-            <a hx-get="/user/index" hx-target="#content" hx-swap="innerHTML" hx-push-url="true" >
+            <a hx-get="/main" hx-target="#content" hx-swap="innerHTML" hx-push-url="true" >
                 <div class="nav-icon">
                     <i class="fas fa-home"></i>
                 </div>

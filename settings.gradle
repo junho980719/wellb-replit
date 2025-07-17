@@ -1,3 +1,7 @@
 rootProject.name = 'wellbe'
 include 'wellbe-user-api'
 include 'wellbe-user-front'
+
+include 'wellbe-admin-api'
+include 'misoinfo-core'
+

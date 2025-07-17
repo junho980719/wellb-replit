@@ -21,6 +21,12 @@ public class HtmxRequestInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         Boolean isHtmxRequest = (Boolean) request.getAttribute("isHtmxRequest");
+
+        // 로그인 페이지는 별도 layout
+        if (request.getRequestURI().startsWith("/auth")) {
+            return;
+        }
+
         if (modelAndView != null && (isHtmxRequest == null || !isHtmxRequest)) {
             String uri = request.getRequestURI();
             modelAndView.addObject("initialUrl", uri);

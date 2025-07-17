@@ -97,7 +97,7 @@ function setCurrentNavigation() {
     const currentPage = window.location.pathname.split('/').pop();
 
     switch(currentPage) {
-        case 'index.html':
+        case 'main.html':
         case '':
             setActiveNav('navHome');
             break;
@@ -321,7 +321,7 @@ function logout() {
     if (confirm('로그아웃 하시겠습니까?')) {
         console.log('로그아웃 처리');
         localStorage.removeItem('currentUser');
-        location.href = '../index.html';
+        location.href = '../main.html';
     }
     toggleHamburgerMenu();
 }

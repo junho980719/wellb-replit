@@ -9,3 +9,5 @@ spring:
       enabled: 'true'
 server:
   port: '8080'
+login:
+  url: /auth/login

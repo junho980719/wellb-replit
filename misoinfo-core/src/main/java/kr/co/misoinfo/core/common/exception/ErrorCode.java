@@ -12,7 +12,10 @@ public enum ErrorCode {
 	EMPTY_USER_NAME("EMPTY_USER_NAME", "사용자 이름은 필수입니다", HttpStatus.BAD_REQUEST),
 	EMPTY_USER_EMAIL("EMPTY_USER_EMAIL", "이메일은 필수입니다", HttpStatus.BAD_REQUEST),
 	EMPTY_UPDATE_INFO("EMPTY_UPDATE_INFO", "수정할 사용자 정보가 비어있습니다", HttpStatus.BAD_REQUEST),
-	
+
+	UNAUTHORIZED("UNAUTHORIZED", "인증되지 않았습니다.", HttpStatus.UNAUTHORIZED),
+	ACCESS_DENIED("ACCESS_DENIED", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
 	// 리소스 관련 에러 (404 Not Found)
 	USER_NOT_FOUND("USER_NOT_FOUND", "사용자를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
 	RESOURCE_NOT_FOUND("RESOURCE_NOT_FOUND", "리소스를 찾을 수 없습니다", HttpStatus.NOT_FOUND),

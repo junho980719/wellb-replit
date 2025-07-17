@@ -2,39 +2,63 @@ package kr.co.wellbe.user.app.service.user;
 
 import kr.co.misoinfo.core.common.exception.BusinessException;
 import kr.co.misoinfo.core.common.exception.ErrorCode;
+import kr.co.misoinfo.core.common.security.JwtTokenProvider;
+import kr.co.misoinfo.core.common.service.CommonAuthService;
 import kr.co.wellbe.domain.entity.user.User;
 import kr.co.wellbe.domain.repository.user.UserRepository;
+import kr.co.wellbe.user.app.dto.user.LoginRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final CommonAuthService commonAuthService;
+	private final JwtTokenProvider jwtTokenProvider;
 
+	@Transactional(readOnly = true)
+	public String login(LoginRequest loginRequest) {
+		User user = userRepository.findByUserId(loginRequest.getUserId())
+				.orElseThrow(() -> new BusinessException(ErrorCode.INVALID_REQUEST, "Invalid credentials"));
+
+		if (!commonAuthService.matchesPassword(loginRequest.getPassword(), user.getPwd())) {
+			throw new BusinessException(ErrorCode.INVALID_REQUEST, "Invalid credentials");
+		}
+
+		return jwtTokenProvider.generateToken(user.getUserId());
+	}
+
+	@Transactional(readOnly = true)
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
 
+	@Transactional(readOnly = true)
 	public User getUserBySeq(Integer userSeq) {
 		return userRepository.findById(userSeq)
 			.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "User not found with userSeq: " + userSeq));
 	}
 
+	@Transactional(readOnly = true)
 	public User getUserByUserId(String userId) {
 		return userRepository.findByUserId(userId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "User not found with userId: " + userId));
 	}
 
+	@Transactional(readOnly = true)
 	public User getUserByEmail(String email) {
 		return userRepository.findByEmail(email)
 			.orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "User not found with email: " + email));
 	}
 
+	@Transactional
 	public User createUser(User user) {
 		// 중복 체크
 		if (user.getUserId() != null && userRepository.existsByUserId(user.getUserId())) {
@@ -44,6 +68,9 @@ public class UserService {
 			throw new IllegalArgumentException("Email already exists: " + user.getEmail());
 		}
 
+		// 비밀번호 암호화
+		user.setPwd(commonAuthService.encodePassword(user.getPwd()));
+
 		// 기본값 설정
 		user.setInputDt(LocalDateTime.now());
 		user.setUserDelGu("N"); // 기본적으로 삭제되지 않음
@@ -51,6 +78,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
+	@Transactional
 	public User updateUser(Integer userSeq, User userDetails) {
 		User user = getUserBySeq(userSeq);
 
@@ -100,6 +128,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
+	@Transactional
 	public void deleteUser(Integer userSeq) {
 		User user = getUserBySeq(userSeq);
 		// 논리적 삭제 처리

@@ -9,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update   # \uAC1C\uBC1C \uC2DC\uC5D0\uB294 update, \uC6B4\uC601 \uC2DC\uC5D0\uB294 validate \uB610\uB294 none \uAD8C\uC7A5
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -21,3 +21,11 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+jwt:
+  secret-key: 'your-very-long-and-secure-secret-key-for-user-api'
+  expiration-ms: 3600000
+
+misoinfo:
+  security:
+    type: jwt

@@ -20,7 +20,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
     at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
     at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
     at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
-    at kr.co.misoinfo.wellb.WellbApiApplication.main(WellbApplication.java:10) ~[main/:na]
+    at kr.co.misoinfo.wellb.WellbeUserApiApplication.main(WellbApplication.java:10) ~[main/:na]
 Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.web.servlet.HandlerExceptionResolver]: Factory method 'handlerExceptionResolver' threw exception with message: Ambiguous @ExceptionHandler method mapped for [class org.springframework.web.servlet.NoHandlerFoundException]: {public org.springframework.http.ResponseEntity kr.co.misoinfo.wellb.common.exception.GlobalExceptionHandler.handleNoHandlerFoundException(org.springframework.web.servlet.NoHandlerFoundException), public org.springframework.http.ResponseEntity kr.co.misoinfo.wellb.common.exception.GlobalExceptionHandler.handleNoHandlerFoundException(org.springframework.web.servlet.NoHandlerFoundException,jakarta.servlet.http.HttpServletRequest)}
     at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:178) ~[spring-beans-6.1.1.jar:6.1.1]
     at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:651) ~[spring-beans-6.1.1.jar:6.1.1]

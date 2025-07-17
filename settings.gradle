@@ -1,5 +1,3 @@
-rootProject.name = 'wellb'
-
-include 'wellb-api'
-include 'wellb-front'
-include 'wellb-front'
+rootProject.name = 'wellbe'
+include 'wellbe-user-api'
+include 'wellbe-user-front'

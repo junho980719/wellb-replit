@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 하단 네비게이션 -->
+<nav class="bottom-navigation" th:fragment="bottomNav (currentPage)">
+    <ul class="nav-container">
+        <li class="nav-item" th:classappend="${currentPage == 'main' ? ' active' : ''}">
+            <a hx-get="/user/index" hx-target="#content" hx-swap="innerHTML" hx-push-url="true" >
+                <div class="nav-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="nav-text">홈</div>
+            </a>
+        </li>
+        <li class="nav-item" th:classappend="${currentPage == 'reservation' ? ' active' : ''}">
+            <a hx-get="/mypage/reservation" hx-target="#content" hx-swap="innerHTML" hx-push-url="true" >
+                <div class="nav-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="nav-text">예약 / 결제</div>
+            </a>
+        </li>
+        <li class="nav-item" th:classappend="${currentPage == 'attendance' ? ' active' : ''}">
+            <a hx-get="/mypage/attendance" hx-target="#content" hx-swap="innerHTML" hx-push-url="true" >
+                <div class="nav-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="nav-text">출석 / 운동</div>
+            </a>
+        </li>
+        <li class="nav-item" th:classappend="${currentPage == 'mypage' ? ' active' : ''}">
+            <a hx-get="/mypage/index" hx-target="#content" hx-swap="innerHTML" hx-push-url="true" >
+                <div class="nav-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="nav-text">내 정보</div>
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

@@ -2,10 +2,14 @@
 package kr.co.misoinfo.wellb.api.user.service;
 
 import kr.co.misoinfo.wellb.api.user.dto.UserSignupRequest;
-import kr.co.misoinfo.wellb.api.user.entity.User;
+import kr.co.misoinfo.wellb.app.domain.user.User;
 import kr.co.misoinfo.wellb.api.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import kr.co.misoinfo.wellb.common.exception.BusinessException;
+import kr.co.misoinfo.wellb.common.exception.ErrorCode;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class UserService {
@@ -16,23 +20,31 @@ public class UserService {
     public User signup(UserSignupRequest request) {
         // 이메일 중복 체크
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("이미 사용중인 이메일입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
         
         // 연락처 중복 체크
         if (userRepository.existsByPhone(request.getPhone())) {
-            throw new RuntimeException("이미 사용중인 연락처입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_PHONE);
         }
         
         // User 엔티티 생성
         User user = new User();
-        user.setName(request.getName());
+        user.setUserNm(request.getName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword()); // 실제로는 암호화 필요
-        user.setPhone(request.getPhone());
-        user.setBirthdate(request.getBirthdate());
-        user.setGender(User.Gender.valueOf(request.getGender().toUpperCase()));
-        user.setMarketingConsent(request.getMarketingConsent());
+        user.setPwd(request.getPassword()); // 실제로는 암호화 필요
+        user.setHpNo(request.getPhone());
+        
+        // LocalDate to String (YYYYMMDD)
+        if (request.getBirthdate() != null) {
+            user.setBirthYmd(request.getBirthdate().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        }
+        
+        // MarketingConsent Boolean to String (Y/N)
+        user.setMktRecYn(request.getMarketingConsent() ? "Y" : "N");
+
+        // Set userId to email for now, as there's no separate userId in signup request
+        user.setUserId(request.getEmail());
         
         return userRepository.save(user);
     }

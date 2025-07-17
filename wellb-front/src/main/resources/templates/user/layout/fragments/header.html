@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 헤더 -->
+<div class="home-header" th:fragment="header">
+    <div class="user-profile">
+        <div class="user-info">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-details">
+                <h4 id="userGreeting">안녕하세요,</h4>
+                <span class="member-grade">VIP 회원</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <a href="#" class="profile-btn" onclick="goToProfile()">
+                <i class="fas fa-cog"></i>
+            </a>
+
+            <button class="hamburger-btn" onclick="toggleHamburgerMenu()" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="center-info">
+        <div class="center-logo">
+            <i class="fas fa-dumbbell"></i>
+        </div>
+        <div class="center-name" id="centerName">피트니스 센터 강남점</div>
+    </div>
+
+    <!-- 풀페이지 햄버거 메뉴 -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <!-- 메뉴 헤더 -->
+        <div class="menu-header">
+            <h2 class="menu-title">전체</h2>
+            <button class="menu-close-btn" onclick="toggleHamburgerMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- 검색 영역 -->
+        <div class="menu-search">
+            <input type="text" class="search-input" placeholder="메뉴를 입력해주세요"/>
+        </div>
+
+        <!-- 메뉴 컨텐츠 -->
+        <div class="menu-content">
+            <!-- 상단 아이콘 메뉴 -->
+            <div class="icon-menu-section">
+                <div class="icon-menu-grid">
+                    <div class="icon-menu-item" onclick="handleIconMenuClick('text1')">
+                        <div class="icon-menu-icon" style="background: linear-gradient(45deg, #0050ff, #0080ff);">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <span class="icon-menu-label">TEXT</span>
+                    </div>
+                    <div class="icon-menu-item" onclick="handleIconMenuClick('text2')">
+                        <div class="icon-menu-icon" style="background: linear-gradient(45deg, #ff6b8a, #ff8fa3);">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <span class="icon-menu-label">TEXT</span>
+                    </div>
+                    <div class="icon-menu-item" onclick="handleIconMenuClick('text3')">
+                        <div class="icon-menu-icon" style="background: linear-gradient(45deg, #4285f4, #34a853);">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span class="icon-menu-label">TEXT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 구분선 -->
+            <div class="menu-divider"></div>
+
+            <!-- 하단 텍스트 메뉴 -->
+            <div class="text-menu-section">
+                <!-- 1depth 메뉴 -->
+                <div class="menu-category">
+                    <button class="category-header" onclick="toggleCategory('category1', this)">
+                        <div class="category-info">
+                            <i class="category-icon fas fa-user"></i>
+                            <span>1depth</span>
+                        </div>
+                        <i class="category-arrow fas fa-chevron-right"></i>
+                    </button>
+                    <div class="category-submenu" id="category1">
+                        <div class="submenu-item" onclick="handleSubmenuClick('profile')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                        <div class="submenu-item" onclick="handleSubmenuClick('password')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <button class="category-header" onclick="toggleCategory('category2', this)">
+                        <div class="category-info">
+                            <i class="category-icon fas fa-check-circle"></i>
+                            <span>1depth</span>
+                        </div>
+                        <i class="category-arrow fas fa-chevron-right"></i>
+                    </button>
+                    <div class="category-submenu" id="category2">
+                        <div class="submenu-item" onclick="handleSubmenuClick('credit-score')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <button class="category-header" onclick="toggleCategory('category3', this)">
+                        <div class="category-info">
+                            <i class="category-icon fas fa-file-invoice"></i>
+                            <span>1depth</span>
+                        </div>
+                        <i class="category-arrow fas fa-chevron-right"></i>
+                    </button>
+                    <div class="category-submenu" id="category3">
+                        <div class="submenu-item" onclick="handleSubmenuClick('documents')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                        <div class="submenu-item" onclick="handleSubmenuClick('certificates')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <button class="category-header" onclick="toggleCategory('category4', this)">
+                        <div class="category-info">
+                            <i class="category-icon fas fa-coins"></i>
+                            <span>1depth</span>
+                        </div>
+                        <i class="category-arrow fas fa-chevron-right"></i>
+                    </button>
+                    <div class="category-submenu" id="category4">
+                        <div class="submenu-item" onclick="handleSubmenuClick('text-sub1')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                        <div class="submenu-item" onclick="handleSubmenuClick('text-sub2')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <button class="category-header" onclick="toggleCategory('category5', this)">
+                        <div class="category-info">
+                            <i class="category-icon fas fa-calculator"></i>
+                            <span>1depth</span>
+                        </div>
+                        <i class="category-arrow fas fa-chevron-right"></i>
+                    </button>
+                    <div class="category-submenu" id="category5">
+                        <div class="submenu-item" onclick="handleSubmenuClick('text-sub3')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                        <div class="submenu-item" onclick="handleSubmenuClick('text-sub4')">
+                            <i class="submenu-item-icon fas fa-circle"></i>
+                            <span>2depth</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메뉴 푸터 -->
+        <div class="menu-footer">
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i>로그아웃
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -19,6 +19,7 @@ public enum ErrorCode {
 	
 	// 중복 관련 에러 (409 Conflict)
 	DUPLICATE_EMAIL("DUPLICATE_EMAIL", "이미 존재하는 이메일입니다", HttpStatus.CONFLICT),
+	DUPLICATE_PHONE("DUPLICATE_PHONE", "이미 존재하는 연락처입니다", HttpStatus.CONFLICT),
 	DUPLICATE_RESOURCE("DUPLICATE_RESOURCE", "이미 존재하는 리소스입니다", HttpStatus.CONFLICT),
 	
 	// 서버 에러 (500 Internal Server Error)

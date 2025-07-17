@@ -1,330 +1,344 @@
-
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/user/login-layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>회원가입</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="w-100 min-vh-100">
+    <!-- 환영 메시지 영역 -->
+    <div class="welcome-section">
+        <div class="welcome-icon">
+            <i class="fas fa-user-plus"></i>
+        </div>
+        <h2 class="mb-3">웰비에 오신 것을 환영합니다!</h2>
+        <p class="mb-0 opacity-90">건강한 라이프스타일의 시작, 지금 시작해보세요</p>
+    </div>
 
-<!-- 헤더 오버라이드 -->
-<div layout:fragment="header" class="header-section">
-    <div class="container-fluid">
-        <div class="row align-items-center p-3">
-            <div class="col-2">
-                <button type="button" class="btn btn-link text-white p-0" 
-                        hx-get="/user/auth/login" hx-target="body">
-                    <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
+    <!-- 회원가입 폼 -->
+    <div class="form-section">
+        <form class="signup-form">
+            <!-- 기본 정보 입력 -->
+            <div class="mb-4">
+                <h5 class="section-title">
+                    <i class="fas fa-user me-2"></i>기본 정보 입력
+                </h5>
+
+                <!-- 이름 -->
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">이름 <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control custom-input" id="name" placeholder="이름을 입력하세요" required>
+                </div>
+
+                <!-- 생년월일 -->
+                <div class="mb-3">
+                    <label for="birthdate" class="form-label fw-semibold">생년월일 <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control custom-input" id="birthdate" required>
+                </div>
+
+                <!-- 성별 -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">성별 <span class="text-danger">*</span></label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="gender-option" onclick="selectGender('male', this)">
+                                <i class="fas fa-mars mb-2" style="font-size: 20px;"></i>
+                                <div class="fw-semibold">남성</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="gender-option" onclick="selectGender('female', this)">
+                                <i class="fas fa-venus mb-2" style="font-size: 20px;"></i>
+                                <div class="fw-semibold">여성</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="gender" name="gender" required>
+                </div>
+
+                <!-- 연락처 -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label fw-semibold">휴대폰 번호 <span class="text-danger">*</span></label>
+                    <div class="row g-2">
+                        <div class="col-8">
+                            <input type="tel" class="form-control custom-input" id="phone" placeholder="010-0000-0000" required>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="verification-btn w-100" onclick="sendVerificationCode()">
+                                인증번호
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 인증번호 입력란 -->
+                    <div class="verification-code-section" id="verificationSection">
+                        <label for="verificationCode" class="form-label fw-semibold small">인증번호</label>
+                        <div class="row g-2">
+                            <div class="col-8">
+                                <input type="text" class="form-control verification-input" id="verificationCode" placeholder="인증번호 6자리 입력" maxlength="6">
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="verification-btn w-100" onclick="verifyCode()">
+                                    확인
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <span id="timer">03:00</span>
+                                <button type="button" class="btn btn-link p-0 small" onclick="resendCode()">재전송</button>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이메일 (아이디) -->
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">이메일 주소 (아이디) <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control custom-input" id="email" placeholder="example@email.com" required>
+                    <small class="text-muted">로그인 시 사용할 아이디가 됩니다.</small>
+                </div>
+
+                <!-- 비밀번호 -->
+                <div class="mb-3">
+                    <label for="password" class="form-label fw-semibold">비밀번호 <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control custom-input" id="password" placeholder="최소 8자, 대소문자, 숫자, 특수문자 포함" required>
+                    <div class="password-validation-message mt-2" id="passwordValidation" style="display: none;">
+                        <small class="text-danger">
+                            <i class="fas fa-exclamation-circle me-1"></i>
+                            <span id="passwordErrorText"></span>
+                        </small>
+                    </div>
+                </div>
+
+                <!-- 비밀번호 확인 -->
+                <div class="mb-4">
+                    <label for="passwordConfirm" class="form-label fw-semibold">비밀번호 확인 <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control custom-input" id="passwordConfirm" placeholder="비밀번호를 다시 입력하세요" required>
+                    <div class="password-match-indicator mt-2" id="passwordMatch" style="display: none;">
+                        <small class="text-danger">
+                            <i class="fas fa-exclamation-circle me-1"></i>비밀번호가 일치하지 않습니다.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 약관 동의 -->
+            <div class="mb-4">
+                <h5 class="section-title">
+                    <i class="fas fa-shield-alt me-2"></i>약관 동의
+                </h5>
+
+                <div class="terms-section">
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeAll" onchange="toggleAllTerms()">
+                            <label class="form-check-label fw-bold" for="agreeAll">
+                                전체 동의
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input required-term" id="terms" required>
+                            <label class="form-check-label" for="terms">
+                                <span class="text-danger fw-semibold">[필수]</span>
+                                <a href="#" class="terms-link">이용약관</a>에 동의합니다
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input required-term" id="privacy" required>
+                            <label class="form-check-label" for="privacy">
+                                <span class="text-danger fw-semibold">[필수]</span>
+                                <a href="#" class="terms-link">개인정보 수집 및 이용</a>에 동의합니다
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input optional-term" id="marketing">
+                            <label class="form-check-label" for="marketing">
+                                <span class="text-muted">[선택]</span>
+                                마케팅 수신 동의 (SMS, 이메일, 리워드/캠페인 정보)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 가입 완료 버튼 -->
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary-custom btn-lg py-3" onclick="completeSignup()">
+                    <i class="fas fa-check me-2"></i>회원가입 완료
                 </button>
             </div>
-            <div class="col-8 text-center">
-                <h5 class="text-white mb-0">회원가입</h5>
-            </div>
-            <div class="col-2"></div>
-        </div>
-    </div>
-</div>
+        </form>
 
-<!-- 콘텐츠 영역 -->
-<div layout:fragment="content" class="signup-form-container">
-    <div class="text-center mb-4">
-        <div class="app-logo">
-            <div class="check-icon mx-auto mb-3">
-                <span>1</span>
-            </div>
-            <h4 class="text-dark mb-2">기본정보 입력</h4>
-            <p class="text-muted">회원가입을 위한 기본 정보를 입력해주세요</p>
-        </div>
-    </div>
-
-    <form class="mb-4" onsubmit="handleSignup(event)">
-        <!-- 이름 -->
-        <div class="mb-3">
-            <label for="name" class="form-label fw-semibold">이름 <span class="text-danger">*</span></label>
-            <input type="text" class="form-control custom-input" id="name" name="name" placeholder="이름을 입력하세요" required>
-        </div>
-
-        <!-- 생년월일 -->
-        <div class="mb-3">
-            <label for="birthdate" class="form-label fw-semibold">생년월일 <span class="text-danger">*</span></label>
-            <input type="date" class="form-control custom-input" id="birthdate" name="birthdate" required>
-        </div>
-
-        <!-- 성별 -->
-        <div class="mb-3">
-            <label class="form-label fw-semibold">성별 <span class="text-danger">*</span></label>
-            <div class="row g-2">
-                <div class="col-6">
-                    <div class="gender-option" onclick="selectGender('male', this)">
-                        <i class="fas fa-mars mb-2" style="font-size: 20px;"></i>
-                        <div>남성</div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="gender-option" onclick="selectGender('female', this)">
-                        <i class="fas fa-venus mb-2" style="font-size: 20px;"></i>
-                        <div>여성</div>
-                    </div>
-                </div>
-            </div>
-            <input type="hidden" id="gender" name="gender" required>
-        </div>
-
-        <!-- 연락처 -->
-        <div class="mb-3">
-            <label for="phone" class="form-label fw-semibold">연락처 <span class="text-danger">*</span></label>
-            <div class="row g-2">
-                <div class="col-8">
-                    <input type="tel" class="form-control custom-input" id="phone" name="phone" placeholder="010-0000-0000" required>
-                </div>
-                <div class="col-4">
-                    <button type="button" class="verification-btn w-100" onclick="sendVerificationCode()">
-                        인증번호
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 인증번호 입력란 -->
-            <div class="verification-code-section" id="verificationSection">
-                <label for="verificationCode" class="form-label fw-semibold small">인증번호</label>
-                <div class="row g-2">
-                    <div class="col-8">
-                        <input type="text" class="form-control verification-input" id="verificationCode" name="verificationCode" placeholder="인증번호 6자리 입력" maxlength="6">
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="verification-btn w-100" onclick="verifyCode()">
-                            확인
-                        </button>
-                    </div>
-                </div>
-                <div class="mt-2">
-                    <small class="text-muted">
-                        <span id="timer">03:00</span> 
-                        <button type="button" class="btn btn-link p-0 small" onclick="resendCode()">재전송</button>
-                    </small>
-                </div>
-            </div>
-        </div>
-
-        <!-- 이메일 -->
-        <div class="mb-4">
-            <label for="email" class="form-label fw-semibold">이메일 주소 <span class="text-danger">*</span></label>
-            <input type="email" class="form-control custom-input" id="email" name="email" placeholder="example@email.com" required>
-        </div>
-
-        <!-- 약관 동의 -->
-        <div class="terms-section">
-            <div class="mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agreeAll" onchange="toggleAllTerms()">
-                    <label class="form-check-label fw-bold" for="agreeAll">
-                        전체 동의
-                    </label>
-                </div>
-            </div>
-            
-            <hr class="my-3">
-            
-            <div class="mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input required-term" id="terms" name="terms" required>
-                    <label class="form-check-label" for="terms">
-                        <span class="text-danger">[필수]</span> 
-                        <a href="#" class="terms-link">이용약관</a>에 동의합니다
-                    </label>
-                </div>
-            </div>
-            
-            <div class="mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input required-term" id="privacy" name="privacy" required>
-                    <label class="form-check-label" for="privacy">
-                        <span class="text-danger">[필수]</span> 
-                        <a href="#" class="terms-link">개인정보 수집 및 이용</a>에 동의합니다
-                    </label>
-                </div>
-            </div>
-            
-            <div class="mb-0">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input optional-term" id="marketing" name="marketing">
-                    <label class="form-check-label" for="marketing">
-                        <span class="text-muted">[선택]</span> 
-                        마케팅 수신 동의 (SMS, 이메일)
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-grid mt-4">
-            <button type="submit" class="btn btn-primary-custom btn-lg">
-                회원가입
+        <div class="text-center mt-4">
+            <p class="text-muted mb-3">이미 계정이 있으신가요?</p>
+            <button type="button" class="btn btn-outline-primary-custom" onclick="location.href='login'">
+                <i class="fas fa-sign-in-alt me-2"></i>로그인하기
             </button>
         </div>
-    </form>
-
-    <div class="text-center">
-        <p class="text-muted mb-3">이미 계정이 있으신가요?</p>
-        <button type="button" class="btn btn-link text-decoration-none" 
-                hx-get="/user/auth/login" hx-target="body">
-            로그인하기
-        </button>
     </div>
 </div>
 
-<!-- 페이지별 스크립트 -->
-<th:block layout:fragment="scripts">
-    <script>
-        // 성별 선택
-        function selectGender(gender, element) {
-            document.querySelectorAll('.gender-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            element.classList.add('selected');
-            document.getElementById('gender').value = gender;
-        }
-        
-        // 인증번호 전송
-        function sendVerificationCode() {
-            const phone = document.getElementById('phone').value;
-            if (!phone) {
-                alert('연락처를 입력해주세요.');
-                return;
-            }
-            
-            document.getElementById('verificationSection').classList.add('show');
-            startTimer();
-            alert('인증번호가 전송되었습니다.');
-        }
-        
-        // 인증번호 확인
-        function verifyCode() {
-            const code = document.getElementById('verificationCode').value;
-            if (!code || code.length !== 6) {
-                alert('6자리 인증번호를 입력해주세요.');
-                return;
-            }
-            alert('인증이 완료되었습니다.');
-        }
-        
-        // 인증번호 재전송
-        function resendCode() {
-            document.getElementById('verificationCode').value = '';
-            startTimer();
-            alert('인증번호가 재전송되었습니다.');
-        }
-        
-        // 타이머 시작
-        function startTimer() {
-            let time = 180; // 3분
-            const timer = document.getElementById('timer');
-            
-            const interval = setInterval(() => {
-                const minutes = Math.floor(time / 60);
-                const seconds = time % 60;
-                timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (time === 0) {
-                    clearInterval(interval);
-                    timer.textContent = '시간 만료';
-                }
-                time--;
-            }, 1000);
-        }
-        
-        // 전체 동의 토글
-        function toggleAllTerms() {
-            const agreeAll = document.getElementById('agreeAll');
-            const requiredTerms = document.querySelectorAll('.required-term');
-            const optionalTerms = document.querySelectorAll('.optional-term');
-            
-            if (agreeAll.checked) {
-                requiredTerms.forEach(term => term.checked = true);
-                optionalTerms.forEach(term => term.checked = true);
-            } else {
-                requiredTerms.forEach(term => term.checked = false);
-                optionalTerms.forEach(term => term.checked = false);
-            }
-        }
-        
-        // 개별 약관 체크 시 전체 동의 상태 업데이트
-        document.addEventListener('DOMContentLoaded', function() {
-            const allTerms = document.querySelectorAll('.required-term, .optional-term');
-            const agreeAll = document.getElementById('agreeAll');
-            
-            allTerms.forEach(term => {
-                term.addEventListener('change', function() {
-                    const checkedTerms = document.querySelectorAll('.required-term:checked, .optional-term:checked');
-                    agreeAll.checked = checkedTerms.length === allTerms.length;
-                });
-            });
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script>
+    // 성별 선택 함수
+    function selectGender(gender, element) {
+        document.querySelectorAll('.gender-option').forEach(el => {
+            el.classList.remove('selected');
         });
-        
-        // 전화번호 자동 포맷팅
-        document.getElementById('phone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/[^0-9]/g, '');
-            if (value.length >= 3 && value.length <= 7) {
-                value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-            } else if (value.length > 7) {
-                value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
-            }
-            e.target.value = value;
-        });
-        
-        // 회원가입 처리
-        async function handleSignup(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const userData = {
-                name: formData.get('name'),
-                birthdate: formData.get('birthdate'),
-                gender: formData.get('gender'),
-                phone: formData.get('phone'),
-                email: formData.get('email'),
-                password: 'temp123!', // 임시 비밀번호 (실제로는 비밀번호 입력 필드 필요)
-                marketingConsent: formData.get('marketing') === 'on'
-            };
-            
-            // 필수 필드 체크
-            if (!userData.name || !userData.birthdate || !userData.gender || !userData.phone || !userData.email) {
-                alert('필수 정보를 모두 입력해주세요.');
-                return;
-            }
-            
-            // 필수 약관 동의 체크
-            if (!formData.get('terms') || !formData.get('privacy')) {
-                alert('필수 약관에 동의해주세요.');
-                return;
-            }
-            
-            try {
-                const result = await UserAPI.signup(userData);
-                
-                if (result.success) {
-                    alert('회원가입이 완료되었습니다!');
-                    // 로그인 페이지로 이동
-                    htmx.ajax('GET', '/user/auth/login', {target: 'body'});
-                } else {
-                    alert(result.message || '회원가입 중 오류가 발생했습니다.');
-                }
-            } catch (error) {
-                alert(error.message || '회원가입 중 오류가 발생했습니다.');
-            }
+        element.classList.add('selected');
+        document.getElementById('gender').value = gender;
+    }
+
+    // 인증번호 전송 함수
+    function sendVerificationCode() {
+        const phone = document.getElementById('phone').value;
+        if (!phone) {
+            alert('연락처를 입력해주세요.');
+            return;
         }
-        
-        // 이메일 중복 체크
-        document.getElementById('email').addEventListener('blur', async function() {
-            const email = this.value;
-            if (email) {
-                try {
-                    const result = await UserAPI.checkEmail(email);
-                    if (result.exists) {
-                        alert(result.message);
-                        this.focus();
-                    }
-                } catch (error) {
-                    console.error('이메일 중복 체크 오류:', error);
-                }
+        document.getElementById('verificationSection').classList.add('show');
+        alert('인증번호가 전송되었습니다.');
+    }
+
+    // 인증번호 확인 함수
+    function verifyCode() {
+        const code = document.getElementById('verificationCode').value;
+        if (!code || code.length !== 6) {
+            alert('6자리 인증번호를 입력해주세요.');
+            return;
+        }
+        alert('인증이 완료되었습니다.');
+    }
+
+    // 인증번호 재전송 함수
+    function resendCode() {
+        document.getElementById('verificationCode').value = '';
+        alert('인증번호가 재전송되었습니다.');
+    }
+
+    // 전체 동의 토글 함수
+    function toggleAllTerms() {
+        const agreeAll = document.getElementById('agreeAll');
+        const requiredTerms = document.querySelectorAll('.required-term');
+        const optionalTerms = document.querySelectorAll('.optional-term');
+
+        if (agreeAll.checked) {
+            requiredTerms.forEach(term => term.checked = true);
+            optionalTerms.forEach(term => term.checked = true);
+        } else {
+            requiredTerms.forEach(term => term.checked = false);
+            optionalTerms.forEach(term => term.checked = false);
+        }
+    }
+
+    // 비밀번호 검증 함수
+    function validatePassword() {
+        const password = document.getElementById('password').value;
+        const passwordValidation = document.getElementById('passwordValidation');
+        const passwordErrorText = document.getElementById('passwordErrorText');
+
+        if (!password) {
+            passwordValidation.style.display = 'none';
+            return false;
+        }
+
+        const requirements = {
+            length: password.length >= 8,
+            upper: /[A-Z]/.test(password),
+            lower: /[a-z]/.test(password),
+            number: /[0-9]/.test(password),
+            special: /[!@#$%^&*]/.test(password)
+        };
+
+        const isValid = Object.values(requirements).every(req => req);
+
+        if (isValid) {
+            passwordValidation.style.display = 'none';
+            return true;
+        } else {
+            let errorMessage = '';
+            if (!requirements.length) {
+                errorMessage = '8자 이상 입력해주세요';
+            } else if (!requirements.upper) {
+                errorMessage = '대문자를 포함해주세요';
+            } else if (!requirements.lower) {
+                errorMessage = '소문자를 포함해주세요';
+            } else if (!requirements.number) {
+                errorMessage = '숫자를 포함해주세요';
+            } else if (!requirements.special) {
+                errorMessage = '특수문자(!@#$%^&*)를 포함해주세요';
             }
-        });
-    </script>
-</th:block>
+
+            passwordErrorText.textContent = errorMessage;
+            passwordValidation.style.display = 'block';
+            return false;
+        }
+    }
+
+    // 비밀번호 일치 검증 함수
+    function validatePasswordMatch() {
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('passwordConfirm').value;
+        const matchIndicator = document.getElementById('passwordMatch');
+
+        if (passwordConfirm && password !== passwordConfirm) {
+            matchIndicator.style.display = 'block';
+            return false;
+        } else {
+            matchIndicator.style.display = 'none';
+            return true;
+        }
+    }
+
+    // 회원가입 완료 함수
+    function completeSignup() {
+        /*const requiredTerms = document.querySelectorAll('.required-term');
+        const allRequired = Array.from(requiredTerms).every(term => term.checked);
+
+        if (!allRequired) {
+            alert('필수 약관에 동의해주세요.');
+            return false;
+        }
+
+        const isPasswordValid = validatePassword();
+        const isPasswordMatch = validatePasswordMatch();
+
+        if (!isPasswordValid || !isPasswordMatch) {
+            alert('비밀번호를 확인해주세요.');
+            return false;
+        }
+
+        alert('기본 정보 입력이 완료되었습니다! 건강정보 입력을 진행해주세요.');*/
+        alert('가입이 완료되었습니다. 로그인 해주세요')
+        location.href='/user/auth/login';
+        return false;
+    }
+
+    // 이벤트 리스너 추가
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('passwordConfirm');
+
+        passwordInput.addEventListener('input', validatePassword);
+        passwordConfirmInput.addEventListener('input', validatePasswordMatch);
+    });
+</script>
+</body>
 </html>

@@ -26,6 +26,8 @@ jwt:
   secret-key: 'your-very-long-and-secure-secret-key-for-user-api'
   expiration-ms: 3600000
 
-misoinfo:
-  security:
-    type: jwt
+security:
+  type: api
+
+cors:
+  allowed-origins: http://localhost:8080

@@ -24,7 +24,8 @@ async function apiRequest(url, options = {}) {
 
         console.log('API Response:', data);
 
-        if (!response.ok) {
+        // console.log("response => ", response)
+        if (!response.success) {
             throw new Error(data.message || '요청 처리 중 오류가 발생했습니다.');
         }
 
@@ -39,9 +40,17 @@ async function apiRequest(url, options = {}) {
  * User API 모듈
  */
 const UserAPI = {
+    // 로그인
+    async login(userData) {
+        return await apiRequest('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify(userData)
+        });
+    },
+
     // 회원가입
     async signup(userData) {
-        return await apiRequest('/user/signup', {
+        return await apiRequest('/auth/sign-up', {
             method: 'POST',
             body: JSON.stringify(userData)
         });

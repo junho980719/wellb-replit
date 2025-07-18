@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 
 @Component
+@ConditionalOnProperty(name = "security.type", havingValue = "api")
 public class JwtTokenProvider {
 
     private final Key key;

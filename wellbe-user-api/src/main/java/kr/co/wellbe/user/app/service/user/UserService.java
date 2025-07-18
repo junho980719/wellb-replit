@@ -7,6 +7,7 @@ import kr.co.misoinfo.core.common.service.CommonAuthService;
 import kr.co.wellbe.domain.entity.user.User;
 import kr.co.wellbe.domain.repository.user.UserRepository;
 import kr.co.wellbe.user.app.dto.user.LoginRequest;
+import kr.co.wellbe.user.app.dto.user.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,6 +135,22 @@ public class UserService {
 		// 논리적 삭제 처리
 		user.setUserDelGu("Y");
 		user.setUserDelDt(LocalDateTime.now());
+		userRepository.save(user);
+	}
+
+	@Transactional
+	public void signUp(SignUpRequest request) {
+		User user = User.builder()
+				.userId(request.getUserId())
+				.gbCd("USER")
+				.pwd(commonAuthService.encodePassword(request.getPwd())) // password enc
+				.userNm(request.getUserNm())
+				.hpNo(request.getHpNo())
+				.email(request.getEmail())
+				.birthYmd(request.getBirthYmd())
+				.mktRecYn(request.getMktRecYn())
+				.build();
+
 		userRepository.save(user);
 	}
 }

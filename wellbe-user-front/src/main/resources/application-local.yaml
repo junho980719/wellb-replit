@@ -11,3 +11,6 @@ server:
   port: '8080'
 login:
   url: /auth/login
+
+security:
+  type: front

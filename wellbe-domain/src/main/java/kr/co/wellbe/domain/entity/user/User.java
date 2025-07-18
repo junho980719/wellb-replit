@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,8 +44,9 @@ public class User {
 	@Column(name = "EMAIL", length = 500)
 	private String email;
 
-	@Column(name = "GB_CD", length = 20, nullable = false)
-	private String gbCd;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "GB_CD", referencedColumnName = "GB_CD", nullable = false)
+	private UserType userType;
 
 	@Column(name = "INPUT_DT")
 	private LocalDateTime inputDt;
@@ -52,8 +54,9 @@ public class User {
 	@Column(name = "UPDATE_DT")
 	private LocalDateTime updateDt;
 
-	@Column(name = "EMAIL_CERT_SEQ", nullable = false)
-	private Integer emailCertSeq;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EMAIL_CERT_SEQ", referencedColumnName = "EMAIL_CERT_SEQ", nullable = false, columnDefinition = "INT COMMENT '이메일인증순번'")
+	private UserEmailCert userEmailCert;
 
 	@Column(name = "USER_DEL_GU", length = 1)
 	private String userDelGu;
@@ -79,8 +82,9 @@ public class User {
 	@Column(name = "SUGG_USER_NO")
 	private Integer suggUserNo;
 
-	@Column(name = "ORG_SEQ", nullable = false)
-	private Integer orgSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ORG_SEQ", referencedColumnName = "ORG_SEQ", nullable = false, columnDefinition = "INT COMMENT '기관순번'")
+	private OrgInfo orgInfo;
 
 	@Column(name = "PROFILE_FILE", length = 500)
 	private String profileFile;

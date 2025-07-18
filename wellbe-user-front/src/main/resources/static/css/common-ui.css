@@ -1,0 +1,111 @@
+/* Custom Alert Styles */
+.custom-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 배경을 약간 더 부드럽게 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px; /* 작은 화면에서 여백 확보 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-alert-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-alert-box {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 10px; /* 좀 더 부드러운 모서리 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* 그림자 효과 개선 */
+    text-align: center;
+    width: 100%;
+    max-width: 380px;
+    transform: translateY(10px) scale(0.95); /* 더 자연스러운 시작 위치 */
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 부드러운 애니메이션 곡선 */
+}
+
+.custom-alert-overlay.show .custom-alert-box {
+    transform: translateY(0) scale(1);
+}
+
+.custom-alert-icon {
+    font-size: 40px; /* 아이콘 크기 최적화 */
+    line-height: 1;
+    margin-bottom: 16px;
+}
+
+.custom-alert-message {
+    font-size: 17px; /* 폰트 크기 최적화 */
+    color: #444; /* 글자색을 약간 더 부드럽게 */
+    margin-bottom: 24px;
+    line-height: 1.6;
+    word-break: keep-all; /* 단어가 잘리지 않게 함 */
+}
+
+.custom-alert-buttons {
+    margin-top: 10px;
+}
+
+.custom-alert-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px; /* 버튼 크기 축소 */
+    font-size: 15px; /* 버튼 폰트 크기 축소 */
+    font-weight: 500; /* 폰트 두께 조절 */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    color: #fff;
+    letter-spacing: 0.5px; /* 자간을 살짝 주어 가독성 향상 */
+}
+
+.custom-alert-btn:hover {
+    opacity: 0.9;
+}
+
+.custom-alert-btn:active {
+    transform: scale(0.97); /* 클릭 효과를 좀 더 미세하게 */
+}
+
+/* --- Type Specific Styles --- */
+
+/* Info (Default) */
+.custom-alert-box.info .custom-alert-icon {
+    color: #2196F3;
+}
+.custom-alert-box.info .custom-alert-btn {
+    background-color: #2196F3;
+}
+
+/* Success */
+.custom-alert-box.success .custom-alert-icon {
+    color: #4CAF50;
+}
+.custom-alert-box.success .custom-alert-btn {
+    background-color: #4CAF50;
+}
+
+/* Error */
+.custom-alert-box.error .custom-alert-icon {
+    color: #F44336;
+}
+.custom-alert-box.error .custom-alert-btn {
+    background-color: #F44336;
+}
+
+/* Warning */
+.custom-alert-box.warning .custom-alert-icon {
+    color: #FF9800; /* 좀 더 선명한 경고색 */
+}
+.custom-alert-box.warning .custom-alert-btn {
+    background-color: #FF9800;
+    color: #fff; /* 흰색 글씨가 더 잘 어울림 */
+}
